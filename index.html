@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OM ROBOTICS – Electronic Components Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --orange: #FF8C00;
+  --orange-dark: #e07a00;
+  --orange-light: #FFA733;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface2: #f1f5f9;
+  --text: #0f172a;
+  --text2: #475569;
+  --text3: #64748b;
+  --gray: #94a3b8;
+  --gray-light: #e2e8f0;
+  --border: rgba(15,23,42,0.08);
+}
+body.dark-theme {
+  --bg: #0b1120;
+  --surface: #111827;
+  --surface2: #1f2937;
+  --text: #f8fafc;
+  --text2: #cbd5e1;
+  --text3: #94a3b8;
+  --gray: #94a3b8;
+  --gray-light: #475569;
+  --border: rgba(255,255,255,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+a{text-decoration:none;color:inherit;}
+
+/* NAVBAR */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:70px;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;letter-spacing:2px;color:var(--text);}
+.nav-logo span{color:var(--orange);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:0.9rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text2);transition:color .2s;}
+.nav-links a:hover{color:var(--orange);}
+.nav-actions{display:flex;align-items:center;gap:1rem;}
+.btn-cart{background:var(--orange);color:var(--text);border:none;padding:0.5rem 1.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;cursor:pointer;position:relative;transition:background .2s;}
+.btn-cart:hover{background:var(--orange-light);}
+.cart-count{position:absolute;top:-6px;right:-6px;background:var(--surface);color:var(--text);border-radius:50%;width:18px;height:18px;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.btn-login{background:transparent;border:1px solid var(--orange);color:var(--orange);padding:0.5rem 1.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.btn-login:hover{background:var(--orange);color:var(--text);}
+.btn-theme{background:transparent;border:1px solid var(--orange);color:var(--orange);padding:0.5rem 0.9rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.btn-theme:hover{background:var(--orange);color:var(--text);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:25px;height:2px;background:var(--text);display:block;}
+.dark-theme nav{background:rgba(15,23,42,0.92);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:0;right:0;width:60%;height:100%;background:linear-gradient(135deg,transparent 30%,rgba(255,140,0,0.05) 100%);}
+.hero-grid{position:absolute;top:0;right:0;width:50%;height:100%;background-image:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,140,0,0.03) 40px,rgba(255,140,0,0.03) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,140,0,0.03) 40px,rgba(255,140,0,0.03) 41px);}
+.hero-content{position:relative;z-index:2;max-width:700px;}
+.hero-badge{display:inline-block;background:rgba(255,140,0,0.15);border:1px solid var(--orange);color:var(--orange);padding:0.3rem 1rem;font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:1.5rem;}
+.hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(3rem,7vw,6rem);line-height:0.95;text-transform:uppercase;margin-bottom:1.5rem;}
+.hero h1 .accent{color:var(--orange);display:block;}
+.hero p{font-size:1.05rem;color:#aaa;line-height:1.7;max-width:500px;margin-bottom:2.5rem;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{background:var(--orange);color:var(--text);border:none;padding:0.9rem 2.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-primary:hover{background:var(--orange-light);transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid rgba(15,23,42,0.15);padding:0.9rem 2.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.btn-outline:hover{border-color:var(--orange);color:var(--orange);}
+.hero-stats{display:flex;gap:3rem;margin-top:3rem;padding-top:2rem;border-top:1px solid rgba(15,23,42,0.08);}
+.stat-item{text-align:left;}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.2rem;color:var(--orange);}
+.stat-label{font-size:0.8rem;color:var(--gray);letter-spacing:1px;text-transform:uppercase;}
+
+/* TICKER */
+.ticker{background:var(--orange);padding:0.6rem 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-block;animation:ticker 25s linear infinite;}
+.ticker-item{display:inline-block;margin:0 2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;color:var(--text);}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* CATEGORIES */
+.section{padding:6rem 5%;}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;}
+.section-label{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:0.5rem;}
+.section-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.5rem;text-transform:uppercase;}
+.view-all{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);border-bottom:1px solid var(--orange);padding-bottom:2px;white-space:nowrap;}
+.view-all:hover{color:var(--orange-light);}
+
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;}
+.cat-card{background:var(--surface2);border:1px solid rgba(15,23,42,0.08);padding:1.5rem 1rem;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.cat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--orange);transform:scaleX(0);transition:transform .3s;}
+.cat-card:hover{border-color:var(--orange);transform:translateY(-4px);}
+.cat-card:hover::before{transform:scaleX(1);}
+.cat-icon{font-size:2rem;margin-bottom:0.75rem;}
+.cat-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:1px;text-transform:uppercase;}
+.cat-count{font-size:0.75rem;color:var(--gray);margin-top:0.25rem;}
+
+/* FEATURED PRODUCTS */
+.products-section{background:var(--surface);padding:6rem 5%;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.5rem;}
+.product-card{background:var(--surface2);border:1px solid rgba(15,23,42,0.08);overflow:hidden;cursor:pointer;transition:all .3s;position:relative;}
+.product-card:hover{border-color:rgba(255,140,0,0.5);transform:translateY(-4px);}
+.product-img{width:100%;height:160px;object-fit:cover;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);display:flex;align-items:center;justify-content:center;font-size:3rem;}
+.product-badge{position:absolute;top:12px;left:12px;background:var(--orange);color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:0.7rem;letter-spacing:1px;padding:0.2rem 0.6rem;}
+.product-body{padding:1rem;}
+.product-cat{font-size:0.7rem;color:var(--orange);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:0.4rem;}
+.product-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.5rem;line-height:1.3;}
+.product-price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.3rem;color:var(--orange);}
+.product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(15,23,42,0.08);}
+.product-stock{font-size:0.75rem;color:var(--gray);}
+.btn-add{background:var(--orange);border:none;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:1px;padding:0.4rem 0.9rem;cursor:pointer;transition:background .2s;}
+.btn-add:hover{background:var(--orange-light);}
+
+/* WHY US */
+.why-section{padding:6rem 5%;background:var(--bg);}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;margin-top:3rem;}
+.why-card{padding:2rem;border:1px solid rgba(15,23,42,0.08);background:var(--surface2);position:relative;}
+.why-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:0;background:var(--orange);transition:height .4s;}
+.why-card:hover::before{height:100%;}
+.why-num{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:3rem;color:rgba(255,140,0,0.15);line-height:1;margin-bottom:1rem;}
+.why-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;margin-bottom:0.5rem;}
+.why-desc{font-size:0.85rem;color:var(--gray);line-height:1.6;}
+
+/* NEWSLETTER */
+.newsletter{background:var(--orange);padding:4rem 5%;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+.nl-text h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2rem;color:var(--text);text-transform:uppercase;}
+.nl-text p{color:var(--text2);margin-top:0.3rem;}
+.nl-form{display:flex;gap:0;flex:1;max-width:450px;}
+.nl-input{flex:1;padding:0.9rem 1.2rem;border:none;background:rgba(15,23,42,0.05);color:var(--text);font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;}
+.nl-input::placeholder{color:rgba(71,85,105,0.6);}
+.nl-btn{background:var(--text);color:var(--surface);border:none;padding:0.9rem 1.5rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;cursor:pointer;white-space:nowrap;transition:opacity .2s;}
+.nl-btn:hover{opacity:0.85;}
+
+/* FOOTER */
+footer{background:var(--surface);padding:4rem 5% 2rem;border-top:1px solid rgba(15,23,42,0.08);}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem;}
+.footer-brand .nav-logo{font-size:1.4rem;margin-bottom:1rem;display:block;color:var(--text);}
+.footer-brand p{font-size:0.85rem;color:var(--text2);line-height:1.7;}
+.footer-col h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:0.85rem;margin-bottom:1.2rem;color:var(--orange);}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:0.6rem;}
+.footer-col a{font-size:0.85rem;color:var(--text2);transition:color .2s;}
+.footer-col a:hover{color:var(--orange);}
+.footer-bottom{border-top:1px solid rgba(15,23,42,0.08);padding-top:2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-bottom p{font-size:0.8rem;color:var(--text2);}
+
+/* MODALS */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.05);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.active{display:flex;}
+.modal{background:var(--surface);border:1px solid var(--border);width:90%;max-width:420px;padding:2.5rem;position:relative;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text3);font-size:1.2rem;cursor:pointer;}
+.modal-close:hover{color:var(--text);}
+.modal h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.8rem;text-transform:uppercase;margin-bottom:0.3rem;}
+.modal-tabs{display:flex;gap:1rem;margin:1.5rem 0 1rem;}
+.tab-btn{background:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;color:var(--text3);cursor:pointer;padding-bottom:4px;border-bottom:2px solid transparent;}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);}
+.form-group{margin-bottom:1rem;}
+.form-group label{font-size:0.8rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);display:block;margin-bottom:0.4rem;}
+.form-group input{width:100%;background:var(--surface2);border:1px solid rgba(15,23,42,0.08);color:var(--text);padding:0.75rem 1rem;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;transition:border-color .2s;}
+.form-group input:focus{border-color:var(--orange);}
+.modal-submit{width:100%;background:var(--orange);border:none;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1rem;letter-spacing:2px;padding:0.9rem;cursor:pointer;margin-top:0.5rem;transition:background .2s;}
+.modal-submit:hover{background:var(--orange-light);}
+
+/* CART SIDEBAR */
+.cart-sidebar{position:fixed;right:-420px;top:0;bottom:0;width:420px;max-width:90vw;background:var(--surface);border-left:1px solid var(--border);z-index:1500;transition:right .3s;display:flex;flex-direction:column;}
+.cart-sidebar.open{right:0;}
+.cart-header{padding:1.5rem;border-bottom:1px solid rgba(15,23,42,0.08);display:flex;align-items:center;justify-content:space-between;}
+.cart-header h3{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.3rem;text-transform:uppercase;color:var(--text);}
+.cart-close{background:none;border:none;color:var(--text3);font-size:1.2rem;cursor:pointer;}
+.cart-items{flex:1;overflow-y:auto;padding:1rem;}
+.cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(15,23,42,0.08);}
+.cart-item-icon{width:50px;height:50px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;color:var(--text);}
+.cart-item-cat{font-size:0.75rem;color:var(--orange);}
+.cart-item-price{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--orange);margin-top:0.3rem;}
+.cart-qty{display:flex;align-items:center;gap:0.5rem;margin-top:0.5rem;}
+.qty-btn{background:var(--surface2);border:1px solid rgba(15,23,42,0.08);color:var(--text);width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.8rem;}
+.qty-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;min-width:20px;text-align:center;}
+.cart-remove{background:none;border:none;color:var(--text3);cursor:pointer;font-size:0.8rem;margin-left:auto;}
+.cart-footer{padding:1.5rem;border-top:1px solid rgba(15,23,42,0.08);}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-family:'Barlow Condensed',sans-serif;}
+.cart-total-label{font-size:0.9rem;color:var(--text3);}
+.cart-total-val{font-weight:800;font-size:1.3rem;color:var(--orange);}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--text3);}
+.cart-empty .empty-icon{font-size:3rem;margin-bottom:1rem;}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--surface2);border-left:3px solid var(--orange);padding:1rem 1.5rem;z-index:3000;transform:translateX(150%);transition:transform .3s;min-width:250px;}
+.toast.show{transform:translateX(0);}
+.toast-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.2rem;}
+.toast-msg{font-size:0.8rem;color:var(--gray);}
+
+/* SPINNER */
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,140,0,0.3);border-top-color:var(--orange);border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none;}.nav-links.open{display:flex;flex-direction:column;position:fixed;top:70px;left:0;right:0;background:var(--surface);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);}
+  .hamburger{display:flex;}
+  .hero h1{font-size:3.5rem;}
+  .hero-stats{gap:1.5rem;flex-wrap:wrap;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .newsletter{flex-direction:column;}
+  .nl-form{max-width:100%;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">OM <span>ROBOTICS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="shop.html?cat=ICS">ICs</a></li>
+    <li><a href="shop.html?cat=CAPACITORS">Capacitors</a></li>
+    <li><a href="shop.html?cat=RESISTORS">Resistors</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-theme" id="themeToggle" onclick="toggleTheme()">🌙</button>
+    <button class="btn-login" id="loginBtn" onclick="openAuthModal()">Login</button>
+    <button class="btn-cart" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Chennai's Premier Component Store</div>
+    <h1>
+      Your One-Stop
+      <span class="accent">Electronics</span>
+      Component Hub
+    </h1>
+    <p>Supplying quality electronic components to engineers, hobbyists, and manufacturers. From resistors to modules — 5,600+ parts in stock.</p>
+    <div class="hero-actions">
+      <a href="shop.html" class="btn-primary">Browse Components</a>
+      <a href="#categories" class="btn-outline">View Categories</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">5,600+</div>
+        <div class="stat-label">Components</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Years in Business</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="tickerInner">
+    <span class="ticker-item">⚡ ICs &amp; Microcontrollers</span>
+    <span class="ticker-item">🔧 Resistors &amp; Capacitors</span>
+    <span class="ticker-item">💡 LEDs &amp; Displays</span>
+    <span class="ticker-item">📡 Sensors &amp; Modules</span>
+    <span class="ticker-item">🔌 Connectors &amp; Cables</span>
+    <span class="ticker-item">🔋 Batteries &amp; Adaptors</span>
+    <span class="ticker-item">⚡ ICs &amp; Microcontrollers</span>
+    <span class="ticker-item">🔧 Resistors &amp; Capacitors</span>
+    <span class="ticker-item">💡 LEDs &amp; Displays</span>
+    <span class="ticker-item">📡 Sensors &amp; Modules</span>
+    <span class="ticker-item">🔌 Connectors &amp; Cables</span>
+    <span class="ticker-item">🔋 Batteries &amp; Adaptors</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Browse By</div>
+      <div class="section-title">Component Categories</div>
+    </div>
+    <a href="shop.html" class="view-all">View All →</a>
+  </div>
+  <div class="cats-grid" id="catsGrid">
+    <!-- Populated by JS / Firestore -->
+  </div>
+</section>
+
+<!-- FEATURED PRODUCTS -->
+<section class="products-section" id="featured">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Handpicked</div>
+      <div class="section-title">Featured Components</div>
+    </div>
+    <a href="shop.html" class="view-all">Shop All →</a>
+  </div>
+  <div class="products-grid" id="featuredGrid">
+    <!-- Populated by JS / Firestore -->
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why-section">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Our Promise</div>
+      <div class="section-title">Why Choose OM ROBOTICS</div>
+    </div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <div class="why-title">Genuine Components</div>
+      <div class="why-desc">Every component is sourced from authorised distributors and verified for authenticity before stocking.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <div class="why-title">5,600+ SKUs In Stock</div>
+      <div class="why-desc">One of Chennai's widest inventories — from common discretes to specialty ICs, all ready to ship.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <div class="why-title">Expert Support</div>
+      <div class="why-desc">Our technical team helps you find the right component for your design requirements.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <div class="why-title">Fast Dispatch</div>
+      <div class="why-desc">Orders placed before 3 PM are dispatched the same day. Pan-India delivery available.</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="nl-text">
+    <h2>Stay Updated on New Stock</h2>
+    <p>Get alerts on new arrivals, offers, and restocks.</p>
+  </div>
+  <form class="nl-form" onsubmit="subscribeNewsletter(event)">
+    <input class="nl-input" type="email" placeholder="Enter your email address" required id="nlEmail">
+    <button type="submit" class="nl-btn">Subscribe</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">OM <span>ROBOTICS</span></a>
+      <p>Your trusted partner for robotics components in Chennai and across India. Quality, variety, and expert support since 2010.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="shop.html?cat=ICS">ICs</a></li>
+        <li><a href="shop.html?cat=RESISTORS">Resistors</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Categories</h4>
+      <ul>
+        <li><a href="shop.html?cat=CAPACITORS">Capacitors</a></li>
+        <li><a href="shop.html?cat=LED">LEDs</a></li>
+        <li><a href="shop.html?cat=SENSORS">Sensors</a></li>
+        <li><a href="shop.html?cat=MODULES">Modules</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:info@omrobotics.in">info@omrobotics.in</a></li>
+        <li><a href="tel:+914412345678">+91 44 1234 5678</a></li>
+        <li><a href="#">Chennai, Tamil Nadu</a></li>
+        <li><a href="admin.html">Admin Panel</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 OM ROBOTICS. All rights reserved.</p>
+    <p>Built with ❤️ for engineers</p>
+  </div>
+</footer>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <h2>Welcome Back</h2>
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('login',this)">Login</button>
+      <button class="tab-btn" onclick="switchTab('register',this)">Register</button>
+    </div>
+    <div id="loginTab">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="••••••••">
+      </div>
+      <button class="modal-submit" onclick="handleLogin()">Login</button>
+    </div>
+    <div id="registerTab" style="display:none;">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="regName" placeholder="Your Name">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="regEmail" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="regPass" placeholder="••••••••">
+      </div>
+      <button class="modal-submit" onclick="handleRegister()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Shopping Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-val" id="cartTotal">₹0.00</span>
+    </div>
+    <a href="checkout.html"><button class="btn-primary" style="width:100%;margin-bottom:0.5rem;" onclick="toggleCart()">Proceed to Checkout</button></a>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toastTitle"></div>
+  <div class="toast-msg" id="toastMsg"></div>
+</div>
+
+<!-- FIREBASE SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs, query, where, limit, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC0EdIcfUU5OADGnAjR79HMjESr6HlqEgY",
+  authDomain: "om-electronics-a6b0b.firebaseapp.com",
+  projectId: "om-electronics-a6b0b",
+  storageBucket: "om-electronics-a6b0b.firebasestorage.app",
+  messagingSenderId: "200777399359",
+  appId: "1:200777399359:web:1d1d3096d17b4401000c8a"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+window._db = db; window._auth = auth; window._firestoreLib = { collection, getDocs, query, where, limit, orderBy, doc, setDoc, serverTimestamp };
+
+const CATEGORY_ICONS = {
+  'ICS':'🔌','CAPACITORS':'⚡','RESISTORS':'🔧','LED':'💡','LCD/DISPLAY':'📺',
+  'CRYSTAL':'💎','DIODE':'🔺','TRANSISTORS':'📡','SENSORS':'👁️','MODULES':'📦',
+  'CABLE':'🔌','CONNECTORS':'🔗','RELAY':'⚙️','BATTERY':'🔋','ADAPTOR/SMPS':'🔌',
+  'SWITCH':'🔄','INDUCTOR':'🌀','BUZZER':'🔔','MOTORS':'⚙️','TRIMPOT/POT':'🎛️',
+  'HOLDER':'🗂️','FUSE':'🛡️','HEATSINK':'❄️','FAN':'💨','BOX':'📦',
+  'BREAD BOARD':'🧩','BASE':'🏗️','WHEEL':'⭕','SOLAR PANAL':'☀️','General':'🔩'
+};
+
+async function loadCategories() {
+  const grid = document.getElementById('catsGrid');
+  try {
+    const snap = await getDocs(query(collection(db, 'categories'), where('enabled','==',true)));
+    if(snap.empty){
+      // Fallback: show static categories from known data
+      const staticCats = ['ICS','CAPACITORS','RESISTORS','LED','LCD/DISPLAY','CRYSTAL','DIODE','TRANSISTORS','SENSORS','MODULES','CABLE','CONNECTORS','RELAY','BATTERY','ADAPTOR/SMPS','SWITCH','INDUCTOR','BUZZER','MOTORS','TRIMPOT/POT'];
+      grid.innerHTML = staticCats.map(c=>`
+        <div class="cat-card" onclick="window.location='shop.html?cat=${encodeURIComponent(c)}'">
+          <div class="cat-icon">${CATEGORY_ICONS[c]||'🔩'}</div>
+          <div class="cat-name">${c}</div>
+        </div>`).join('');
+      return;
+    }
+    grid.innerHTML = snap.docs.map(d=>{
+      const data=d.data();
+      return `<div class="cat-card" onclick="window.location='shop.html?cat=${encodeURIComponent(data.name)}'">
+        <div class="cat-icon">${CATEGORY_ICONS[data.name]||'🔩'}</div>
+        <div class="cat-name">${data.name}</div>
+        ${data.count?`<div class="cat-count">${data.count} items</div>`:''}
+      </div>`;
+    }).join('');
+  } catch(e){ console.log('Categories fallback'); }
+}
+
+async function loadFeatured() {
+  const grid = document.getElementById('featuredGrid');
+  try {
+    const snap = await getDocs(query(collection(db, 'components'), where('enabled','==',true), limit(8)));
+    if(snap.empty){
+      grid.innerHTML = `<p style="color:var(--gray);grid-column:1/-1;text-align:center;padding:2rem;">No featured products yet. Add products from the <a href="admin.html" style="color:var(--orange)">admin panel</a>.</p>`;
+      return;
+    }
+    grid.innerHTML = snap.docs.map(d=>{
+      const p=d.data();
+      return `<div class="product-card">
+        ${p.imageUrl?`<img class="product-img" src="${p.imageUrl}" alt="${p.name}" onerror="this.style.display='none'"`:`<div class="product-img">${CATEGORY_ICONS[p.category]||'🔩'}</div>`}
+        <div class="product-body">
+          <div class="product-cat">${p.category||''}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-price">₹${p.price?.toFixed(2)||'0.00'}</div>
+          <div class="product-footer">
+            <span class="product-stock">${p.stock>0?`In Stock: ${p.stock}`:'Out of Stock'}</span>
+            <button class="btn-add" onclick="addToCart('${d.id}','${p.name.replace(/'/g,"\\'")}','${p.category||''}',${p.price||0},'${p.imageUrl||''}')">Add</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e){ grid.innerHTML = `<p style="color:var(--gray);grid-column:1/-1;text-align:center;padding:2rem;">Configure Firebase to load products. <a href="admin.html" style="color:var(--orange)">Admin Panel →</a></p>`; }
+}
+
+// Auth
+onAuthStateChanged(auth, user=>{
+  const btn = document.getElementById('loginBtn');
+  if(user){
+    btn.textContent = 'Logout';
+    btn.onclick = ()=>{ signOut(auth); showToast('Logged out','See you soon!'); };
+  } else {
+    btn.textContent = 'Login';
+    btn.onclick = openAuthModal;
+  }
+});
+
+window.handleLogin = async ()=>{
+  const email = document.getElementById('loginEmail').value;
+  const pass = document.getElementById('loginPass').value;
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    closeAuthModal();
+    showToast('Welcome back!','You are now logged in.');
+  } catch(e){ showToast('Login failed', e.message, 'error'); }
+};
+
+window.handleRegister = async ()=>{
+  const name = document.getElementById('regName').value;
+  const email = document.getElementById('regEmail').value;
+  const pass = document.getElementById('regPass').value;
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await setDoc(doc(db,'users',cred.user.uid),{name,email,orderHistory:[],createdAt:serverTimestamp()});
+    closeAuthModal();
+    showToast('Account created!','Welcome to OM ROBOTICS.');
+  } catch(e){ showToast('Registration failed', e.message, 'error'); }
+};
+
+loadCategories();
+loadFeatured();
+</script>
+
+<script>
+// CART
+let cart = JSON.parse(localStorage.getItem('omCart')||'[]');
+function saveCart(){ localStorage.setItem('omCart', JSON.stringify(cart)); updateCartUI(); }
+function updateCartUI(){
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent = count;
+  const items = document.getElementById('cartItems');
+  if(!cart.length){ items.innerHTML=`<div class="cart-empty"><div class="empty-icon">🛒</div><p>Your cart is empty</p></div>`; }
+  else {
+    items.innerHTML = cart.map((item,i)=>`
+      <div class="cart-item">
+        <div class="cart-item-icon">${item.icon||'🔩'}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-cat">${item.cat}</div>
+          <div class="cart-item-price">₹${(item.price*item.qty).toFixed(2)}</div>
+          <div class="cart-qty">
+            <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+            <button class="cart-remove" onclick="removeFromCart(${i})">✕ Remove</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  const total = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('cartTotal').textContent = `₹${total.toFixed(2)}`;
+}
+window.addToCart = (id,name,cat,price,imageUrl)=>{
+  const existing = cart.find(i=>i.id===id);
+  if(existing){ existing.qty++; } else { cart.push({id,name,cat,price,qty:1}); }
+  saveCart();
+  showToast('Added to cart!', name);
+};
+window.changeQty=(i,d)=>{ cart[i].qty+=d; if(cart[i].qty<=0) cart.splice(i,1); saveCart(); };
+window.removeFromCart=(i)=>{ cart.splice(i,1); saveCart(); };
+function toggleCart(){ document.getElementById('cartSidebar').classList.toggle('open'); updateCartUI(); }
+
+// TOAST
+function showToast(title, msg, type='success'){
+  const t = document.getElementById('toast');
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
+  t.style.borderLeftColor = type==='error'?'#ff4444':'var(--orange)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// MODAL
+function openAuthModal(){ document.getElementById('authModal').classList.add('active'); }
+function closeAuthModal(){ document.getElementById('authModal').classList.remove('active'); }
+function switchTab(tab, btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('loginTab').style.display = tab==='login'?'block':'none';
+  document.getElementById('registerTab').style.display = tab==='register'?'block':'none';
+}
+
+// THEME
+function setTheme(theme){
+  const isDark=theme==='dark';
+  document.body.classList.toggle('dark-theme', isDark);
+  const btn=document.getElementById('themeToggle');
+  if(btn) btn.textContent=isDark?'☀️':'🌙';
+  localStorage.setItem('omTheme', theme);
+}
+function toggleTheme(){
+  setTheme(document.body.classList.contains('dark-theme')?'light':'dark');
+}
+(function(){
+  const saved=localStorage.getItem('omTheme');
+  const pref=window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  setTheme(saved||pref);
+})();
+
+// HAMBURGER
+function toggleMenu(){ document.getElementById('navLinks').classList.toggle('open'); }
+
+// NEWSLETTER
+window.subscribeNewsletter = (e)=>{
+  e.preventDefault();
+  showToast('Subscribed!','Thank you for subscribing to our newsletter.');
+  document.getElementById('nlEmail').value='';
+};
+
+// Close modal on outside click
+document.getElementById('authModal').addEventListener('click', e=>{ if(e.target.id==='authModal') closeAuthModal(); });
+
+updateCartUI();
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout – OM ROBOTICS</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#FF8C00;--black:#f8fafc;--black2:#ffffff;--black3:#f1f5f9;--white:#0f172a;--gray:#64748b;--border:rgba(15,23,42,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);}
+a{text-decoration:none;color:inherit;}
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:70px;background:var(--black2);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;letter-spacing:2px;}
+.nav-logo span{color:var(--orange);}
+.page{padding:3rem 5%;max-width:1100px;margin:0 auto;}
+.page h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.5rem;text-transform:uppercase;margin-bottom:2rem;}
+.checkout-grid{display:grid;grid-template-columns:1fr 380px;gap:2rem;align-items:start;}
+.form-section{background:var(--black2);border:1px solid rgba(15,23,42,0.08);padding:2rem;}
+.form-section h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:1.5rem;}
+.form-group{margin-bottom:1rem;}
+.form-group label{display:block;font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:0.4rem;}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--black3);border:1px solid rgba(15,23,42,0.08);color:var(--white);padding:0.75rem 1rem;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;transition:border-color .2s;}
+.form-group input:focus,.form-group select:focus{border-color:var(--orange);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.order-summary{background:var(--black2);border:1px solid rgba(15,23,42,0.08);padding:1.5rem;position:sticky;top:2rem;}
+.order-summary h3{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;letter-spacing:1px;color:var(--orange);margin-bottom:1.5rem;}
+.order-item{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid rgba(15,23,42,0.08);font-size:0.85rem;}
+.order-item-name{color:#475569;flex:1;}
+.order-item-qty{color:var(--gray);margin:0 0.5rem;}
+.order-item-price{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white);}
+.order-total-row{display:flex;justify-content:space-between;padding:0.75rem 0;font-family:'Barlow Condensed',sans-serif;}
+.order-total-row.total{font-size:1.3rem;font-weight:900;border-top:1px solid rgba(15,23,42,0.08);margin-top:0.5rem;padding-top:1rem;}
+.order-total-row.total .val{color:var(--orange);}
+.order-total-row .label{color:var(--gray);font-size:0.9rem;font-weight:600;}
+.order-total-row .val{font-weight:700;}
+.btn-place{background:var(--orange);border:none;color:var(--black);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:2px;padding:1rem 2rem;cursor:pointer;width:100%;margin-top:1.5rem;transition:background .2s;}
+.btn-place:hover{background:#FFA733;}
+.btn-place:disabled{background:#e2e8f0;color:#64748b;cursor:not-allowed;}
+.empty-cart{text-align:center;padding:4rem 2rem;color:var(--gray);}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--black3);border-left:3px solid var(--orange);padding:1rem 1.5rem;z-index:3000;transform:translateX(150%);transition:transform .3s;}
+.toast.show{transform:translateX(0);}
+.toast-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;}
+.toast-msg{font-size:0.8rem;color:var(--gray);}
+.success-screen{display:none;text-align:center;padding:4rem 2rem;}
+.success-screen .check{font-size:4rem;margin-bottom:1rem;}
+.success-screen h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.5rem;text-transform:uppercase;margin-bottom:0.5rem;}
+@media(max-width:768px){.checkout-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<nav><a href="index.html" class="nav-logo">OM <span>ROBOTICS</span></a><a href="shop.html" style="font-size:0.85rem;color:var(--gray);">← Continue Shopping</a></nav>
+<div class="page">
+  <h1>Checkout</h1>
+  <div id="emptyCart" class="empty-cart" style="display:none;"><p style="font-size:3rem;margin-bottom:1rem;">🛒</p><p>Your cart is empty. <a href="shop.html" style="color:var(--orange);">Shop now →</a></p></div>
+  <div class="checkout-grid" id="checkoutGrid">
+    <div>
+      <div class="form-section" style="margin-bottom:1.5rem;">
+        <h3>Contact Information</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="cName" placeholder="John Doe" required></div>
+          <div class="form-group"><label>Email *</label><input type="email" id="cEmail" placeholder="you@email.com" required></div>
+        </div>
+        <div class="form-group"><label>Phone *</label><input type="tel" id="cPhone" placeholder="+91 98765 43210" required></div>
+      </div>
+      <div class="form-section">
+        <h3>Shipping Address</h3>
+        <div class="form-group"><label>Address Line 1 *</label><input type="text" id="cAddr1" placeholder="Street address" required></div>
+        <div class="form-group"><label>Address Line 2</label><input type="text" id="cAddr2" placeholder="Apartment, suite, etc."></div>
+        <div class="form-row">
+          <div class="form-group"><label>City *</label><input type="text" id="cCity" placeholder="Chennai" required></div>
+          <div class="form-group"><label>PIN Code *</label><input type="text" id="cPin" placeholder="600001" required></div>
+        </div>
+        <div class="form-group"><label>State</label>
+          <select id="cState"><option>Tamil Nadu</option><option>Karnataka</option><option>Kerala</option><option>Andhra Pradesh</option><option>Maharashtra</option><option>Delhi</option><option>Other</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="order-summary">
+      <h3>Order Summary</h3>
+      <div id="summaryItems"></div>
+      <div class="order-total-row"><span class="label">Subtotal</span><span class="val" id="summarySubtotal">₹0.00</span></div>
+      <div class="order-total-row"><span class="label">Shipping</span><span class="val">Free</span></div>
+      <div class="order-total-row total"><span>Total</span><span class="val" id="summaryTotal">₹0.00</span></div>
+      <button class="btn-place" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+  <div class="success-screen" id="successScreen">
+    <div class="check">✅</div>
+    <h2>Order Placed!</h2>
+    <p style="color:var(--gray);margin-bottom:2rem;">Thank you! We'll process your order and get back to you shortly.</p>
+    <a href="shop.html" style="background:var(--orange);color:var(--black);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1rem;letter-spacing:2px;padding:0.9rem 2rem;display:inline-block;">Continue Shopping</a>
+  </div>
+</div>
+<div class="toast" id="toast"><div class="toast-title" id="toastTitle"></div><div class="toast-msg" id="toastMsg"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const firebaseConfig={apiKey:"AIzaSyC0EdIcfUU5OADGnAjR79HMjESr6HlqEgY",authDomain:"om-electronics-a6b0b.firebaseapp.com",projectId:"om-electronics-a6b0b",storageBucket:"om-electronics-a6b0b.firebasestorage.app",messagingSenderId:"200777399359",appId:"1:200777399359:web:1d1d3096d17b4401000c8a"};
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+let currentUser=null;
+onAuthStateChanged(auth,u=>{ currentUser=u; if(u){ document.getElementById('cEmail').value=u.email||''; } });
+
+const cart=JSON.parse(localStorage.getItem('omCart')||'[]');
+if(!cart.length){ document.getElementById('checkoutGrid').style.display='none'; document.getElementById('emptyCart').style.display='block'; }
+else {
+  const items=document.getElementById('summaryItems');
+  items.innerHTML=cart.map(i=>`<div class="order-item"><span class="order-item-name">${i.name}</span><span class="order-item-qty">×${i.qty}</span><span class="order-item-price">₹${(i.price*i.qty).toFixed(2)}</span></div>`).join('');
+  const total=cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('summarySubtotal').textContent=`₹${total.toFixed(2)}`;
+  document.getElementById('summaryTotal').textContent=`₹${total.toFixed(2)}`;
+}
+
+window.placeOrder=async function(){
+  const name=document.getElementById('cName').value.trim();
+  const email=document.getElementById('cEmail').value.trim();
+  const phone=document.getElementById('cPhone').value.trim();
+  const addr1=document.getElementById('cAddr1').value.trim();
+  const city=document.getElementById('cCity').value.trim();
+  const pin=document.getElementById('cPin').value.trim();
+  if(!name||!email||!phone||!addr1||!city||!pin){ showToast('Missing info','Please fill all required fields.','error'); return; }
+  const btn=document.getElementById('placeOrderBtn');
+  btn.disabled=true; btn.textContent='Placing Order…';
+  try {
+    await addDoc(collection(db,'orders'),{
+      userId:currentUser?.uid||'guest',
+      items:cart,
+      totalAmount:cart.reduce((s,i)=>s+(i.price*i.qty),0),
+      status:'pending',
+      customerDetails:{name,email,phone,address:`${addr1}, ${document.getElementById('cAddr2').value}, ${city} - ${pin}, ${document.getElementById('cState').value}`},
+      createdAt:serverTimestamp()
+    });
+    localStorage.removeItem('omCart');
+    document.getElementById('checkoutGrid').style.display='none';
+    document.getElementById('successScreen').style.display='block';
+  } catch(e){ showToast('Error',e.message,'error'); btn.disabled=false; btn.textContent='Place Order'; }
+};
+function showToast(title,msg,type='success'){
+  const t=document.getElementById('toast');
+  document.getElementById('toastTitle').textContent=title;
+  document.getElementById('toastMsg').textContent=msg;
+  t.style.borderLeftColor=type==='error'?'#ef4444':'var(--orange)';
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>
