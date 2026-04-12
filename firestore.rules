@@ -1,0 +1,85 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── HELPER FUNCTIONS ────────────────────────────────────────────────────
+
+    // Check if the requester is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the requester is the designated admin (set your admin UID below)
+    function isAdmin() {
+      return isAuthenticated() &&
+        (request.auth.token.email == 'admin@omelectronics.in' ||
+         get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role == 'admin');
+    }
+
+    // Check if the requester owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // ─── COMPONENTS (products) ───────────────────────────────────────────────
+    match /components/{componentId} {
+      // Public: read only enabled components
+      allow read: if resource.data.enabled == true;
+
+      // Admin: full read + write
+      allow read, write: if isAdmin();
+    }
+
+    // ─── CATEGORIES ──────────────────────────────────────────────────────────
+    match /categories/{categoryId} {
+      // Public: read only enabled categories
+      allow read: if resource.data.enabled == true;
+
+      // Admin: full read + write
+      allow read, write: if isAdmin();
+    }
+
+    // ─── ORDERS ──────────────────────────────────────────────────────────────
+    match /orders/{orderId} {
+      // Authenticated users can create their own orders
+      allow create: if isAuthenticated() &&
+                       request.resource.data.userId == request.auth.uid;
+
+      // Guest orders (userId == 'guest') also allowed to be created
+      allow create: if request.resource.data.userId == 'guest';
+
+      // Users can read their own orders
+      allow read: if isOwner(resource.data.userId);
+
+      // Admin: full access
+      allow read, write: if isAdmin();
+    }
+
+    // ─── USERS ───────────────────────────────────────────────────────────────
+    match /users/{userId} {
+      // Users can read/write their own profile only
+      allow read, write: if isOwner(userId);
+
+      // Admin: full access
+      allow read, write: if isAdmin();
+    }
+
+    // ─── ADMINS ──────────────────────────────────────────────────────────────
+    match /admins/{adminId} {
+      // Only existing admins can read the admins collection
+      allow read: if isAdmin();
+
+      // No writes from client — manage via Firebase Console
+      allow write: if false;
+    }
+
+    // ─── SETTINGS ────────────────────────────────────────────────────────────
+    match /settings/{settingId} {
+      // Public can read settings (store name, contact info, etc.)
+      allow read: if true;
+
+      // Only admin can write settings
+      allow write: if isAdmin();
+    }
+  }
+}
