@@ -83,11 +83,13 @@ input,select,textarea{font-family:var(--font);}
 .sidebar-logo-text{font-family:var(--font2);font-weight:700;font-size:0.95rem;color:var(--text);}
 .sidebar-logo-text span{color:var(--accent);}
 .sidebar-logo-text small{display:block;font-size:0.62rem;font-weight:400;color:var(--text3);margin-top:1px;}
-.sidebar-nav{flex:1;padding:1rem 0.75rem;overflow-y:auto;}
+.sidebar-nav{position:relative;flex:1;padding:1rem 0.75rem;overflow-y:auto;}
+.sidebar-nav .nav-arrow{position:absolute;left:0.5rem;width:4px;background:linear-gradient(180deg,var(--accent),var(--accent2));border-radius:999px;transition:top .25s ease,height .25s ease,opacity .25s ease;opacity:0;}
 .nav-section-label{font-size:0.63rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text3);padding:0 0.75rem;margin:1rem 0 0.4rem;}
-.nav-item{display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.75rem;font-size:0.86rem;font-weight:500;color:var(--text2);cursor:pointer;transition:all .18s;border-radius:var(--radius-sm);margin-bottom:2px;}
+.nav-item{position:relative;display:flex;align-items:center;gap:0.65rem;padding:0.6rem 0.75rem;font-size:0.86rem;font-weight:500;color:var(--text2);cursor:pointer;transition:all .18s;border-radius:var(--radius-sm);margin-bottom:2px;}
 .nav-item:hover{background:var(--surface2);color:var(--text);}
 .nav-item.active{background:var(--accent-soft);color:var(--accent);font-weight:600;}
+.nav-item.active::before{content:'▶';position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);font-size:0.9rem;color:var(--accent);}
 .nav-icon{font-size:0.95rem;width:18px;text-align:center;opacity:0.8;}
 .nav-item.active .nav-icon{opacity:1;}
 .sidebar-footer{padding:1rem 0.75rem;border-top:1px solid var(--border);}
@@ -253,6 +255,7 @@ select.order-status-sel:focus{border-color:var(--accent);}
       <div class="sidebar-logo-text">OM <span>Electronics</span><small>Admin Panel</small></div>
     </div>
     <nav class="sidebar-nav">
+      <div class="nav-arrow" id="sidebarNavArrow"></div>
       <div class="nav-section-label">Overview</div>
       <div class="nav-item active" onclick="showPanel('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</div>
       <div class="nav-section-label">Catalogue</div>
@@ -534,9 +537,20 @@ function showPanel(name, el){
   document.getElementById('panel-'+name).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
+  updateSidebarArrow();
   const titles={dashboard:'Dashboard',products:'Products',categories:'Categories',orders:'Orders',users:'Users',import:'Import Excel',settings:'Settings'};
   document.getElementById('panelTitle').textContent=titles[name]||name;
   if(name==='orders'&&window._loadOrders) window._loadOrders();
+}
+function updateSidebarArrow(){
+  const active=document.querySelector('.sidebar-nav .nav-item.active');
+  const arrow=document.getElementById('sidebarNavArrow');
+  if(!active||!arrow) return;
+  const nav=document.querySelector('.sidebar-nav');
+  const offset=active.offsetTop;
+  arrow.style.top=`${offset + 4}px`;
+  arrow.style.height=`${active.offsetHeight - 8}px`;
+  arrow.style.opacity='1';
 }
 function showToast(title,msg,type='success'){
   const t=document.getElementById('toast');
