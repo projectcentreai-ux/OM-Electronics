@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>OM ROBOTICS – Electronic Components</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --or:#FF6200;
+  --or2:#FF8533;
+  --bk:#0A0A0A;
+  --bk2:#141414;
+  --bk3:#1C1C1C;
+  --wh:#FAFAF7;
+  --wh2:#F0EDE6;
+  --gy:#8A8680;
+  --bd:rgba(255,255,255,0.07);
+  --bdl:rgba(10,10,10,0.10);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--wh);color:var(--bk);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;}
+
+/* ─── INTRO ──────────────────────────────────── */
+#intro{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bk);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.i-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(255,98,0,0.10);
+  animation:rp 2.6s ease-in-out infinite;
+}
+.i-ring:nth-child(1){width:300px;height:300px;}
+.i-ring:nth-child(2){width:480px;height:480px;animation-delay:.5s;border-color:rgba(255,98,0,0.06);}
+.i-ring:nth-child(3){width:680px;height:680px;animation-delay:1s;border-color:rgba(255,98,0,0.03);}
+@keyframes rp{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+.i-inner{position:relative;z-index:2;text-align:center;}
+.i-dot{
+  width:8px;height:8px;border-radius:50%;background:var(--or);
+  margin:0 auto 24px;
+  animation:db .85s ease-in-out infinite alternate;
+}
+@keyframes db{from{transform:translateY(0);opacity:.5;}to{transform:translateY(-9px);opacity:1;}}
+.i-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.2rem,13vw,6.5rem);
+  letter-spacing:6px;color:var(--wh);line-height:1;
+  clip-path:inset(0 100% 0 0);
+  animation:reveal .85s cubic-bezier(.16,1,.3,1) .3s forwards;
+}
+.i-logo span{color:var(--or);}
+@keyframes reveal{to{clip-path:inset(0 0% 0 0);}}
+.i-sub{
+  font-family:'Space Mono',monospace;
+  font-size:clamp(.48rem,.6rem,.65rem);
+  letter-spacing:5px;text-transform:uppercase;color:var(--gy);
+  margin-top:.75rem;opacity:0;
+  animation:fu .55s ease .95s forwards;
+}
+.i-bw{margin-top:2rem;width:150px;height:1px;background:rgba(255,255,255,.07);overflow:hidden;}
+.i-bf{height:100%;width:0;background:var(--or);animation:bf 1.5s cubic-bezier(.25,1,.5,1) .45s forwards;}
+@keyframes bf{to{width:100%;}}
+@keyframes fu{to{opacity:1;}}
+#intro.out{animation:io .7s cubic-bezier(.87,0,.13,1) forwards;}
+@keyframes io{0%{clip-path:polygon(0 0,100% 0,100% 100%,0 100%);}100%{clip-path:polygon(0 0,100% 0,100% 0,0 0);}}
+
+/* ─── NAV ────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  height:58px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 5%;
+  background:rgba(10,10,10,0.88);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--bd);
+  transform:translateY(-100%);
+  transition:transform .55s cubic-bezier(.16,1,.3,1);
+}
+nav.in{transform:translateY(0);}
+.n-logo{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:3px;color:var(--wh);}
+.n-logo span{color:var(--or);}
+.n-right{display:flex;align-items:center;gap:.55rem;}
+.n-btn{
+  background:transparent;border:1px solid rgba(255,255,255,.14);
+  color:var(--wh);padding:.38rem .85rem;
+  font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;
+  transition:border-color .2s,color .2s;
+}
+.n-btn:active{border-color:var(--or);color:var(--or);}
+.n-cart{
+  background:var(--or);border:none;color:var(--wh);
+  padding:.4rem .95rem;
+  font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;
+  position:relative;transition:background .2s;
+}
+.n-cart:active{background:var(--or2);}
+.cbadge{
+  position:absolute;top:-6px;right:-6px;
+  background:var(--wh);color:var(--bk);border-radius:50%;
+  width:16px;height:16px;font-size:.52rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.ham{display:none;flex-direction:column;gap:4.5px;background:none;border:none;padding:5px;}
+.ham span{width:20px;height:1.5px;background:var(--wh);display:block;transition:all .28s;}
+.ham.o span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
+.ham.o span:nth-child(2){opacity:0;transform:scaleX(0);}
+.ham.o span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
+.n-menu{
+  display:none;position:fixed;top:58px;left:0;right:0;
+  background:var(--bk);border-bottom:1px solid var(--bd);
+  padding:1.4rem 5%;flex-direction:column;gap:1.1rem;z-index:799;
+}
+.n-menu.o{display:flex;}
+.n-menu a{
+  font-family:'Space Mono',monospace;font-size:.62rem;
+  letter-spacing:3px;text-transform:uppercase;color:var(--gy);
+  transition:color .2s;padding:.15rem 0;
+}
+.n-menu a:active{color:var(--or);}
+@media(max-width:600px){
+  .n-btn{display:none;}
+  .ham{display:flex;}
+}
+
+/* ─── HERO ───────────────────────────────────── */
+.hero{
+  position:relative;height:100svh;min-height:580px;
+  display:flex;flex-direction:column;
+  align-items:flex-start;justify-content:flex-end;
+  overflow:hidden;
+}
+.h-vid{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+.h-ov{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to top,rgba(10,10,10,.97) 0%,rgba(10,10,10,.55) 38%,rgba(10,10,10,.18) 100%),
+    linear-gradient(to right,rgba(10,10,10,.72) 0%,transparent 65%);
+}
+.h-slash{position:absolute;bottom:0;left:0;width:100%;height:3px;background:linear-gradient(to right,var(--or) 0%,transparent 55%);}
+.h-content{
+  position:relative;z-index:2;
+  padding:0 6% 8%;
+  width:100%;max-width:660px;
+}
+.h-tag{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:rgba(255,98,0,0.11);
+  border:1px solid rgba(255,98,0,0.28);
+  padding:.28rem .8rem;margin-bottom:1.1rem;
+  opacity:0;animation:fu .5s ease 1.9s forwards;
+}
+.h-tag span{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:3px;text-transform:uppercase;color:var(--or);}
+.h-dot{width:5px;height:5px;border-radius:50%;background:var(--or);}
+.h-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.8rem,10.5vw,5.2rem);
+  line-height:.95;letter-spacing:2px;
+  color:var(--wh);text-transform:uppercase;
+  opacity:0;animation:fu .6s ease 2s forwards;
+}
+.h-h1 em{color:var(--or);font-style:normal;display:block;}
+.h-p{
+  font-size:clamp(.82rem,.88rem,.95rem);
+  color:rgba(250,250,247,.52);line-height:1.65;
+  max-width:320px;margin-top:.85rem;
+  opacity:0;animation:fu .5s ease 2.1s forwards;
+}
+.h-acts{
+  display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.5rem;
+  opacity:0;animation:fu .5s ease 2.25s forwards;
+}
+.btn-hp{
+  background:var(--or);color:var(--wh);border:none;
+  padding:.75rem 1.7rem;
+  font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  transition:background .2s,transform .15s;
+}
+.btn-hp:active{background:var(--or2);transform:scale(.97);}
+.btn-ho{
+  background:transparent;color:rgba(250,250,247,.7);
+  border:1px solid rgba(255,255,255,.18);
+  padding:.75rem 1.5rem;
+  font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;
+  transition:border-color .2s,color .2s;
+}
+.btn-ho:active{border-color:var(--or);color:var(--or);}
+.h-stats{
+  display:flex;gap:1.8rem;flex-wrap:wrap;
+  margin-top:1.8rem;padding-top:1.4rem;
+  border-top:1px solid rgba(255,255,255,.07);
+  opacity:0;animation:fu .5s ease 2.4s forwards;
+}
+.sn{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:1px;color:var(--or);line-height:1;}
+.sl{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:2px;text-transform:uppercase;color:rgba(250,250,247,.3);margin-top:.2rem;}
+.scroll-i{
+  position:absolute;bottom:5%;left:50%;transform:translateX(-50%);
+  z-index:3;display:flex;flex-direction:column;align-items:center;gap:.45rem;
+  opacity:0;animation:fu .4s ease 2.65s forwards;
+}
+.scroll-i span{font-family:'Space Mono',monospace;font-size:.46rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.22);}
+.scrl{width:1px;height:34px;background:linear-gradient(to bottom,var(--or),transparent);animation:sl 1.5s ease-in-out infinite;}
+@keyframes sl{0%,100%{opacity:.3;transform:scaleY(.7);}50%{opacity:1;transform:scaleY(1);}}
+
+/* ─── TICKER ─────────────────────────────────── */
+.ticker{background:var(--or);padding:.48rem 0;overflow:hidden;white-space:nowrap;}
+.t-inner{display:inline-block;animation:tk 28s linear infinite;}
+.t-item{display:inline-block;margin:0 1.8rem;font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:3px;color:var(--wh);}
+.t-sep{color:rgba(255,255,255,.35);margin:0 .4rem;font-size:.55rem;vertical-align:middle;}
+@keyframes tk{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ─── SECTIONS ───────────────────────────────── */
+.sec{padding:4rem 5%;}
+.s-lbl{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:4px;text-transform:uppercase;color:var(--or);margin-bottom:.55rem;}
+.s-ttl{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.9rem,5.5vw,3rem);letter-spacing:2px;text-transform:uppercase;line-height:1;}
+.s-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.2rem;flex-wrap:wrap;gap:.7rem;}
+.lk{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:2px;text-transform:uppercase;color:var(--or);border-bottom:1px solid var(--or);padding-bottom:2px;}
+
+/* ─── CATEGORIES ─────────────────────────────── */
+#cats{background:var(--wh2);}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem;}
+@media(max-width:500px){.cg{grid-template-columns:repeat(2,1fr);}}
+.cc{
+  background:var(--wh);border:1px solid var(--bdl);
+  padding:1rem .55rem;text-align:center;
+  position:relative;overflow:hidden;transition:transform .18s;
+}
+.cc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--or);transform:scaleX(0);transition:transform .22s;}
+.cc:active{transform:scale(.96);}
+.cc:active::after{transform:scaleX(1);}
+.cc-i{font-size:1.3rem;margin-bottom:.35rem;}
+.cc-n{font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:.5px;text-transform:uppercase;line-height:1.15;}
+.cc-c{font-size:.6rem;color:var(--gy);margin-top:.2rem;}
+
+/* ─── PRODUCTS ───────────────────────────────── */
+#prods{background:var(--wh);}
+.ps{
+  display:flex;gap:.65rem;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:.6rem;scrollbar-width:none;
+}
+.ps::-webkit-scrollbar{display:none;}
+.pc{
+  background:var(--wh2);border:1px solid var(--bdl);
+  flex:0 0 185px;scroll-snap-align:start;overflow:hidden;
+}
+@media(max-width:470px){.pc{flex:0 0 calc(50vw - 5.5%);}}
+.pi{width:100%;height:120px;background:var(--wh);display:flex;align-items:center;justify-content:center;font-size:2.6rem;position:relative;}
+.pbg{position:absolute;top:7px;left:7px;background:var(--or);color:var(--wh);font-family:'Space Mono',monospace;font-size:.46rem;font-weight:700;letter-spacing:1px;padding:.16rem .48rem;}
+.pb{padding:.75rem .75rem .85rem;}
+.pct{font-family:'Space Mono',monospace;font-size:.5rem;color:var(--or);letter-spacing:2px;text-transform:uppercase;margin-bottom:.28rem;}
+.pn{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.5px;line-height:1.2;margin-bottom:.4rem;}
+.pp{font-family:'Space Mono',monospace;font-weight:700;font-size:.88rem;color:var(--or);}
+.pf{display:flex;align-items:center;justify-content:space-between;margin-top:.6rem;padding-top:.6rem;border-top:1px solid var(--bdl);}
+.pst{font-size:.6rem;color:var(--gy);}
+.ba{background:var(--bk);color:var(--wh);border:none;font-family:'Space Mono',monospace;font-size:.5rem;font-weight:700;letter-spacing:1px;padding:.35rem .75rem;transition:background .18s;}
+.ba:active{background:var(--or);}
+.sdots{display:flex;justify-content:center;gap:.38rem;margin-top:.9rem;}
+.sdots span{width:5px;height:5px;border-radius:50%;background:rgba(10,10,10,.12);transition:background .22s;}
+.sdots span.a{background:var(--or);}
+
+/* ─── WHY ────────────────────────────────────── */
+#why{background:var(--bk);position:relative;overflow:hidden;}
+#why::before{content:'';position:absolute;top:-70px;right:-70px;width:300px;height:300px;border-radius:50%;border:1px solid rgba(255,98,0,0.06);}
+#why .s-lbl{color:var(--or);}
+#why .s-ttl{color:var(--wh);}
+.wg{display:grid;grid-template-columns:repeat(2,1fr);gap:.55rem;margin-top:1.9rem;}
+@media(max-width:380px){.wg{grid-template-columns:1fr;}}
+.wc{background:var(--bk2);border:1px solid var(--bd);padding:1.3rem 1.1rem;position:relative;overflow:hidden;transition:border-color .22s;}
+.wc:active{border-color:rgba(255,98,0,.35);}
+.wnum{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:rgba(255,98,0,.05);line-height:1;margin-bottom:.5rem;}
+.wi{font-size:1.2rem;margin-bottom:.45rem;}
+.wt{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.5px;text-transform:uppercase;color:var(--wh);margin-bottom:.35rem;}
+.wd{font-size:.77rem;color:rgba(250,250,247,.34);line-height:1.58;}
+.wc::after{content:'';position:absolute;bottom:0;right:0;width:36px;height:36px;background:linear-gradient(135deg,transparent 50%,rgba(255,98,0,0.06) 50%);}
+
+/* ─── VIDEO FEATURE STRIP ────────────────────── */
+.fstrip{background:var(--bk3);padding:3rem 5%;}
+.fi{display:flex;align-items:center;gap:1.3rem;margin-bottom:2.2rem;}
+.fi:last-child{margin-bottom:0;}
+.fi.rev{flex-direction:row-reverse;}
+.fv{flex:0 0 120px;height:80px;overflow:hidden;position:relative;}
+.fv video{width:100%;height:100%;object-fit:cover;}
+.fv::after{content:'';position:absolute;inset:0;background:rgba(255,98,0,0.08);}
+.ft-l{font-family:'Space Mono',monospace;font-size:.53rem;letter-spacing:3px;text-transform:uppercase;color:var(--or);margin-bottom:.35rem;}
+.ft-t{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;color:var(--wh);line-height:1.1;margin-bottom:.4rem;}
+.ft-p{font-size:.76rem;color:rgba(250,250,247,.34);line-height:1.58;}
+
+/* ─── NEWSLETTER ─────────────────────────────── */
+.nl{background:var(--or);padding:3.2rem 5%;position:relative;overflow:hidden;}
+.nl::before{content:'';position:absolute;right:-45px;bottom:-45px;width:200px;height:200px;border-radius:50%;border:38px solid rgba(255,255,255,.07);}
+.nl h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:2px;color:var(--wh);text-transform:uppercase;line-height:1;margin-bottom:.35rem;}
+.nl p{font-size:.82rem;color:rgba(255,255,255,.62);margin-bottom:1.1rem;}
+.nl-r{display:flex;flex-wrap:wrap;}
+.nl-i{flex:1;min-width:180px;padding:.75rem .95rem;border:none;background:rgba(255,255,255,.14);color:var(--wh);font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;}
+.nl-i::placeholder{color:rgba(255,255,255,.4);}
+.nl-s{background:var(--bk);color:var(--wh);border:none;padding:.75rem 1.3rem;font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;white-space:nowrap;transition:opacity .18s;}
+.nl-s:active{opacity:.72;}
+
+/* ─── FOOTER ─────────────────────────────────── */
+footer{background:var(--bk);padding:3.2rem 5% 1.8rem;border-top:1px solid var(--bd);}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;margin-bottom:2.2rem;}
+@media(min-width:680px){.fg{grid-template-columns:2fr 1fr 1fr;}}
+.fb .n-logo{color:var(--wh);display:inline-block;margin-bottom:.65rem;}
+.fb p{font-size:.75rem;color:rgba(250,250,247,.25);line-height:1.65;max-width:210px;}
+.fc h5{font-family:'Space Mono',monospace;font-size:.52rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--or);margin-bottom:.8rem;}
+.fc ul{list-style:none;}
+.fc li{margin-bottom:.45rem;}
+.fc a{font-size:.77rem;color:rgba(250,250,247,.25);transition:color .18s;}
+.fc a:active{color:var(--wh);}
+.fbot{border-top:1px solid var(--bd);padding-top:1.3rem;display:flex;flex-wrap:wrap;gap:.4rem;justify-content:space-between;align-items:center;}
+.fbot p{font-size:.67rem;color:rgba(250,250,247,.18);}
+
+/* ─── CART SIDEBAR ───────────────────────────── */
+.csd{position:fixed;right:-110%;top:0;bottom:0;width:min(390px,95vw);background:var(--wh);border-left:1px solid var(--bdl);z-index:1000;transition:right .32s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;}
+.csd.o{right:0;}
+.chd{padding:1.1rem 1.2rem;border-bottom:1px solid var(--bdl);display:flex;align-items:center;justify-content:space-between;}
+.chd h3{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:2px;text-transform:uppercase;}
+.ccl{background:none;border:none;color:var(--gy);font-size:1rem;}
+.cit{flex:1;overflow-y:auto;padding:.9rem 1.2rem;}
+.citm{display:flex;gap:.7rem;padding:.8rem 0;border-bottom:1px solid var(--bdl);}
+.cico{width:44px;height:44px;background:var(--wh2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.2rem;}
+.cinf{flex:1;}
+.cnm{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:.5px;}
+.ccat{font-size:.62rem;color:var(--or);}
+.cpr{font-family:'Space Mono',monospace;font-weight:700;color:var(--or);font-size:.82rem;margin-top:.18rem;}
+.cqrow{display:flex;align-items:center;gap:.38rem;margin-top:.38rem;}
+.qb{background:var(--wh2);border:1px solid var(--bdl);color:var(--bk);width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.82rem;}
+.qnum{font-family:'Space Mono',monospace;font-weight:700;min-width:16px;text-align:center;font-size:.75rem;}
+.qrm{background:none;border:none;color:var(--gy);font-size:.67rem;margin-left:auto;}
+.cemp{text-align:center;padding:2.5rem 1rem;color:var(--gy);}
+.cemp .ei{font-size:2.3rem;margin-bottom:.65rem;}
+.cft{padding:1.1rem 1.2rem;border-top:1px solid var(--bdl);}
+.ctot{display:flex;justify-content:space-between;margin-bottom:.9rem;}
+.ctotl{font-size:.78rem;color:var(--gy);}
+.ctotv{font-family:'Space Mono',monospace;font-weight:700;font-size:1.05rem;color:var(--or);}
+.bchk{width:100%;background:var(--or);color:var(--wh);border:none;padding:.85rem;font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .18s;}
+.bchk:active{background:var(--bk);}
+
+/* ─── AUTH MODAL ─────────────────────────────── */
+.mov{position:fixed;inset:0;background:rgba(10,10,10,.65);z-index:2000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:1.2rem;}
+.mov.on{display:flex;}
+.modal{background:var(--wh);width:100%;max-width:370px;padding:1.8rem;position:relative;}
+.mx{position:absolute;top:.8rem;right:.8rem;background:none;border:none;color:var(--gy);font-size:.95rem;}
+.modal h2{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.18rem;}
+.mtabs{display:flex;gap:1.4rem;margin:1.1rem 0 .75rem;}
+.mtab{background:none;border:none;font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:2px;text-transform:uppercase;color:var(--gy);padding-bottom:3px;border-bottom:2px solid transparent;transition:all .18s;}
+.mtab.a{color:var(--or);border-bottom-color:var(--or);}
+.fg2{margin-bottom:.8rem;}
+.fg2 label{font-family:'Space Mono',monospace;font-size:.53rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gy);display:block;margin-bottom:.32rem;}
+.fg2 input{width:100%;background:var(--wh2);border:1px solid var(--bdl);color:var(--bk);padding:.65rem .85rem;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .18s;-webkit-appearance:none;}
+.fg2 input:focus{border-color:var(--or);}
+.msub{width:100%;background:var(--or);color:var(--wh);border:none;padding:.8rem;margin-top:.35rem;font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;transition:background .18s;}
+.msub:active{background:var(--bk);}
+
+/* ─── TOAST ──────────────────────────────────── */
+.toast{position:fixed;bottom:1.4rem;left:50%;transform:translate(-50%,130px);background:var(--bk);border-left:3px solid var(--or);padding:.8rem 1.1rem;z-index:9000;min-width:230px;max-width:88vw;transition:transform .32s cubic-bezier(.16,1,.3,1);}
+.toast.on{transform:translate(-50%,0);}
+.tt{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:1px;color:var(--wh);margin-bottom:.12rem;}
+.tm{font-size:.68rem;color:var(--gy);}
+
+/* ─── REVEAL ─────────────────────────────────── */
+[data-r]{opacity:0;transform:translateY(20px);transition:opacity .58s ease,transform .58s ease;}
+[data-r].on{opacity:1;transform:translateY(0);}
+
+/* ─── SCROLLBAR ──────────────────────────────── */
+::-webkit-scrollbar{width:2px;height:2px;}
+::-webkit-scrollbar-thumb{background:var(--or);}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="i-ring"></div><div class="i-ring"></div><div class="i-ring"></div>
+  <div class="i-inner">
+    <div class="i-dot"></div>
+    <div class="i-logo">OM <span>ROBOTICS</span></div>
+    <div class="i-sub">Electronic Components · Chennai</div>
+    <div class="i-bw"><div class="i-bf"></div></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="n-logo">OM <span>ROBOTICS</span></a>
+  <div class="n-right">
+    <button class="n-btn" onclick="openAuth()">Login</button>
+    <button class="n-cart" onclick="toggleCart()">Cart <span class="cbadge" id="cartCount">0</span></button>
+    <button class="ham" id="ham" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="n-menu" id="nMenu">
+  <a href="index.html" onclick="closeMenu()">Home</a>
+  <a href="shop.html" onclick="closeMenu()">Shop All</a>
+  <a href="shop.html?cat=ICS" onclick="closeMenu()">ICs &amp; MCUs</a>
+  <a href="shop.html?cat=SENSORS" onclick="closeMenu()">Sensors</a>
+  <a href="#cats" onclick="closeMenu()">Categories</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="h-vid" id="hv"
+    src="https://raw.githubusercontent.com/projectcentreai-ux/OM-Electronics/main/14549303_1080_1920_30fps.mp4"
+    autoplay muted loop playsinline preload="auto"></video>
+  <div class="h-ov"></div>
+  <div class="h-slash"></div>
+  <div class="h-content">
+    <div class="h-tag"><div class="h-dot"></div><span>Chennai's Premier Store</span></div>
+    <h1 class="h-h1">Your One-Stop <em>Electronics</em> Hub</h1>
+    <p class="h-p">5,600+ components for engineers, students &amp; makers — shipped fast from Chennai.</p>
+    <div class="h-acts">
+      <a href="shop.html" class="btn-hp">Browse Components</a>
+      <a href="#cats" class="btn-ho">Categories</a>
+    </div>
+    <div class="h-stats">
+      <div><div class="sn">5,600+</div><div class="sl">Parts in Stock</div></div>
+      <div><div class="sn">30+</div><div class="sl">Categories</div></div>
+      <div><div class="sn">10+</div><div class="sl">Years Active</div></div>
+    </div>
+  </div>
+  <div class="scroll-i"><span>Scroll</span><div class="scrl"></div></div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="t-inner">
+    <span class="t-item">ICs &amp; MCUs</span><span class="t-sep">✦</span>
+    <span class="t-item">Resistors</span><span class="t-sep">✦</span>
+    <span class="t-item">Capacitors</span><span class="t-sep">✦</span>
+    <span class="t-item">LEDs &amp; Displays</span><span class="t-sep">✦</span>
+    <span class="t-item">Sensors</span><span class="t-sep">✦</span>
+    <span class="t-item">Connectors</span><span class="t-sep">✦</span>
+    <span class="t-item">Power Modules</span><span class="t-sep">✦</span>
+    <span class="t-item">ICs &amp; MCUs</span><span class="t-sep">✦</span>
+    <span class="t-item">Resistors</span><span class="t-sep">✦</span>
+    <span class="t-item">Capacitors</span><span class="t-sep">✦</span>
+    <span class="t-item">LEDs &amp; Displays</span><span class="t-sep">✦</span>
+    <span class="t-item">Sensors</span><span class="t-sep">✦</span>
+    <span class="t-item">Connectors</span><span class="t-sep">✦</span>
+    <span class="t-item">Power Modules</span><span class="t-sep">✦</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="sec" id="cats">
+  <div class="s-hd" data-r>
+    <div><div class="s-lbl">Browse By</div><div class="s-ttl">Categories</div></div>
+    <a href="shop.html" class="lk">All →</a>
+  </div>
+  <div class="cg" data-r>
+    <div class="cc"><div class="cc-i">🔌</div><div class="cc-n">ICs</div><div class="cc-c">842</div></div>
+    <div class="cc"><div class="cc-i">⚡</div><div class="cc-n">Resistors</div><div class="cc-c">1,240</div></div>
+    <div class="cc"><div class="cc-i">🔋</div><div class="cc-n">Capacitors</div><div class="cc-c">930</div></div>
+    <div class="cc"><div class="cc-i">💡</div><div class="cc-n">LEDs</div><div class="cc-c">580</div></div>
+    <div class="cc"><div class="cc-i">📡</div><div class="cc-n">Sensors</div><div class="cc-c">420</div></div>
+    <div class="cc"><div class="cc-i">🔧</div><div class="cc-n">Transistors</div><div class="cc-c">615</div></div>
+    <div class="cc"><div class="cc-i">🖥️</div><div class="cc-n">Displays</div><div class="cc-c">210</div></div>
+    <div class="cc"><div class="cc-i">🔗</div><div class="cc-n">Connectors</div><div class="cc-c">780</div></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="sec" id="prods" style="background:var(--wh2);padding-bottom:2.8rem;">
+  <div class="s-hd" data-r>
+    <div><div class="s-lbl">Hand-Picked</div><div class="s-ttl">Featured</div></div>
+    <a href="shop.html" class="lk">Shop All →</a>
+  </div>
+  <div class="ps" id="pscroll" data-r>
+    <div class="pc"><div class="pi">🔌<div class="pbg">HOT</div></div><div class="pb"><div class="pct">MCU</div><div class="pn">Arduino Uno R3</div><div class="pp">₹449</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('a1','Arduino Uno R3','MCU',449)">Add</button></div></div></div>
+    <div class="pc"><div class="pi">📟</div><div class="pb"><div class="pct">Module</div><div class="pn">ESP32 Dev Board</div><div class="pp">₹320</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('e1','ESP32 Dev Board','Module',320)">Add</button></div></div></div>
+    <div class="pc"><div class="pi">💡<div class="pbg">NEW</div></div><div class="pb"><div class="pct">Display</div><div class="pn">OLED 0.96" I2C</div><div class="pp">₹185</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('o1','OLED 0.96 I2C','Display',185)">Add</button></div></div></div>
+    <div class="pc"><div class="pi">📡</div><div class="pb"><div class="pct">Sensor</div><div class="pn">DHT22 Temp Sensor</div><div class="pp">₹145</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('d1','DHT22 Sensor','Sensor',145)">Add</button></div></div></div>
+    <div class="pc"><div class="pi">⚡</div><div class="pb"><div class="pct">Power</div><div class="pn">LM7805 Regulator</div><div class="pp">₹18</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('l1','LM7805 Regulator','Power',18)">Add</button></div></div></div>
+    <div class="pc"><div class="pi">🔧</div><div class="pb"><div class="pct">Transistor</div><div class="pn">BC547 Pack ×10</div><div class="pp">₹35</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('b1','BC547 Pack ×10','Transistor',35)">Add</button></div></div></div>
+    <div class="pc"><div class="pi">🔌</div><div class="pb"><div class="pct">Module</div><div class="pn">4ch Relay 5V</div><div class="pp">₹210</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('r1','4ch Relay 5V','Module',210)">Add</button></div></div></div>
+    <div class="pc"><div class="pi">📟</div><div class="pb"><div class="pct">MCU</div><div class="pn">Raspberry Pi Pico</div><div class="pp">₹395</div><div class="pf"><span class="pst">In Stock</span><button class="ba" onclick="addToCart('p1','Raspberry Pi Pico','MCU',395)">Add</button></div></div></div>
+  </div>
+  <div class="sdots" id="sdots"></div>
+</section>
+
+<!-- WHY -->
+<section class="sec" id="why">
+  <div data-r><div class="s-lbl">Why Choose Us</div><div class="s-ttl">Built for Builders</div></div>
+  <div class="wg">
+    <div class="wc" data-r><div class="wnum">01</div><div class="wi">⚡</div><div class="wt">Same-Day Dispatch</div><div class="wd">Order before 3 PM — ships today.</div></div>
+    <div class="wc" data-r><div class="wnum">02</div><div class="wi">🔍</div><div class="wt">Quality Assured</div><div class="wd">Certified parts, zero clones.</div></div>
+    <div class="wc" data-r><div class="wnum">03</div><div class="wi">🧠</div><div class="wt">Expert Support</div><div class="wd">10+ years helping engineers.</div></div>
+    <div class="wc" data-r><div class="wnum">04</div><div class="wi">🏪</div><div class="wt">5,600+ In Stock</div><div class="wd">Chennai's widest selection.</div></div>
+  </div>
+</section>
+
+<!-- VIDEO FEATURE STRIP -->
+<div class="fstrip">
+  <div class="fi" data-r>
+    <div class="fv"><video src="https://raw.githubusercontent.com/projectcentreai-ux/OM-Electronics/main/14549303_1080_1920_30fps.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;"></video></div>
+    <div><div class="ft-l">The OM Difference</div><div class="ft-t">Precision Parts, Ready to Ship</div><div class="ft-p">From prototype to production — we stock what builders need.</div></div>
+  </div>
+  <div class="fi rev" data-r>
+    <div class="fv"><video src="https://raw.githubusercontent.com/projectcentreai-ux/OM-Electronics/main/14549303_1080_1920_30fps.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;object-position:70% center;"></video></div>
+    <div><div class="ft-l">10+ Years</div><div class="ft-t">Chennai's Most Trusted Source</div><div class="ft-p">Serving engineers and makers across India since 2014.</div></div>
+  </div>
+</div>
+
+<!-- NEWSLETTER -->
+<div class="nl" id="contact" data-r>
+  <h2>Stay in the Loop</h2>
+  <p>Stock alerts, guides &amp; exclusive deals.</p>
+  <div class="nl-r">
+    <input class="nl-i" type="email" placeholder="your@email.com">
+    <button class="nl-s">Subscribe</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fg">
+    <div class="fb">
+      <span class="n-logo" style="color:var(--wh)">OM <span style="color:var(--or)">ROBOTICS</span></span>
+      <p>Chennai's trusted electronic component supplier since 2014.</p>
+    </div>
+    <div class="fc"><h5>Shop</h5><ul><li><a href="shop.html">All Components</a></li><li><a href="shop.html?cat=ICS">ICs</a></li><li><a href="shop.html?cat=SENSORS">Sensors</a></li><li><a href="shop.html?cat=MODULES">Modules</a></li></ul></div>
+    <div class="fc"><h5>Help</h5><ul><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">FAQ</a></li><li><a href="#">Track</a></li></ul></div>
+  </div>
+  <div class="fbot"><p>© 2025 OM Robotics. All rights reserved.</p><p>Chennai, Tamil Nadu</p></div>
+</footer>
+
+<!-- CART -->
+<div class="csd" id="csd">
+  <div class="chd"><h3>Your Cart</h3><button class="ccl" onclick="toggleCart()">✕</button></div>
+  <div class="cit" id="cItems"><div class="cemp"><div class="ei">🛒</div><p>Cart is empty</p></div></div>
+  <div class="cft"><div class="ctot"><span class="ctotl">Total</span><span class="ctotv" id="cartTotal">₹0.00</span></div><button class="bchk">Checkout →</button></div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="mov" id="aModal">
+  <div class="modal">
+    <button class="mx" onclick="closeAuth()">✕</button>
+    <h2>Account</h2>
+    <div class="mtabs">
+      <button class="mtab a" onclick="swTab('l',this)">Login</button>
+      <button class="mtab" onclick="swTab('r',this)">Register</button>
+    </div>
+    <div id="tL">
+      <div class="fg2"><label>Email</label><input type="email" id="lE" placeholder="you@example.com"></div>
+      <div class="fg2"><label>Password</label><input type="password" id="lP" placeholder="••••••••"></div>
+      <button class="msub" onclick="doLogin()">Login →</button>
+    </div>
+    <div id="tR" style="display:none">
+      <div class="fg2"><label>Name</label><input type="text" id="rN" placeholder="Your name"></div>
+      <div class="fg2"><label>Email</label><input type="email" id="rE" placeholder="you@example.com"></div>
+      <div class="fg2"><label>Password</label><input type="password" id="rP" placeholder="••••••••"></div>
+      <button class="msub" onclick="doReg()">Create Account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><div class="tt" id="tT">Done</div><div class="tm" id="tM"></div></div>
+
+<script>
+/* INTRO — dismiss after loading bar animation (~2s) */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const el=document.getElementById('intro');
+    el.classList.add('out');
+    document.getElementById('nav').classList.add('in');
+    el.addEventListener('animationend',()=>el.remove(),{once:true});
+  },2000);
+});
+
+/* NAV */
+function toggleMenu(){
+  document.getElementById('ham').classList.toggle('o');
+  document.getElementById('nMenu').classList.toggle('o');
+}
+function closeMenu(){
+  document.getElementById('ham').classList.remove('o');
+  document.getElementById('nMenu').classList.remove('o');
+}
+
+/* PRODUCT SCROLL DOTS */
+(()=>{
+  const wrap=document.getElementById('pscroll');
+  const dotsEl=document.getElementById('sdots');
+  if(!wrap||!dotsEl)return;
+  const cards=wrap.querySelectorAll('.pc');
+  if(!cards.length)return;
+  const cardW=()=>cards[0].offsetWidth+Math.round(parseFloat(getComputedStyle(wrap).gap)||10);
+  const pages=()=>Math.max(1,Math.ceil(wrap.scrollWidth/wrap.clientWidth));
+  let dots=[];
+  function buildDots(){
+    dotsEl.innerHTML='';dots=[];
+    const n=pages();
+    for(let i=0;i<n;i++){
+      const s=document.createElement('span');
+      if(i===0)s.classList.add('a');
+      dotsEl.appendChild(s);dots.push(s);
+    }
+  }
+  buildDots();
+  wrap.addEventListener('scroll',()=>{
+    const idx=Math.round(wrap.scrollLeft/wrap.clientWidth);
+    dots.forEach((d,i)=>d.classList.toggle('a',i===Math.min(idx,dots.length-1)));
+  },{passive:true});
+})();
+
+/* SCROLL REVEAL */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('on'),i*55);});
+},{threshold:0.1});
+document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
+
+/* CART */
+let cart=JSON.parse(localStorage.getItem('omCart')||'[]');
+function saveCart(){localStorage.setItem('omCart',JSON.stringify(cart));renderCart();}
+function renderCart(){
+  const n=cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent=n;
+  const el=document.getElementById('cItems');
+  if(!cart.length){el.innerHTML='<div class="cemp"><div class="ei">🛒</div><p>Cart is empty</p></div>';return;}
+  el.innerHTML=cart.map((it,i)=>`
+    <div class="citm">
+      <div class="cico">🔩</div>
+      <div class="cinf">
+        <div class="cnm">${it.name}</div>
+        <div class="ccat">${it.cat}</div>
+        <div class="cpr">₹${(it.price*it.qty).toFixed(2)}</div>
+        <div class="cqrow">
+          <button class="qb" onclick="cQ(${i},-1)">−</button>
+          <span class="qnum">${it.qty}</span>
+          <button class="qb" onclick="cQ(${i},1)">+</button>
+          <button class="qrm" onclick="cRm(${i})">✕ Remove</button>
+        </div>
+      </div>
+    </div>`).join('');
+  const tot=cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('cartTotal').textContent=`₹${tot.toFixed(2)}`;
+}
+window.addToCart=(id,name,cat,price)=>{
+  const ex=cart.find(i=>i.id===id);
+  if(ex){ex.qty++;}else{cart.push({id,name,cat,price,qty:1});}
+  saveCart();showToast('Added to cart!',name);
+};
+window.cQ=(i,d)=>{cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);saveCart();};
+window.cRm=(i)=>{cart.splice(i,1);saveCart();};
+function toggleCart(){document.getElementById('csd').classList.toggle('o');renderCart();}
+renderCart();
+
+/* TOAST */
+let tTimer;
+function showToast(title,msg,type='ok'){
+  const t=document.getElementById('toast');
+  document.getElementById('tT').textContent=title;
+  document.getElementById('tM').textContent=msg;
+  t.style.borderLeftColor=type==='err'?'#f03':'var(--or)';
+  t.classList.add('on');
+  clearTimeout(tTimer);
+  tTimer=setTimeout(()=>t.classList.remove('on'),3000);
+}
+
+/* AUTH */
+function openAuth(){document.getElementById('aModal').classList.add('on');}
+function closeAuth(){document.getElementById('aModal').classList.remove('on');}
+function swTab(tab,btn){
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('a'));
+  btn.classList.add('a');
+  document.getElementById('tL').style.display=tab==='l'?'block':'none';
+  document.getElementById('tR').style.display=tab==='r'?'block':'none';
+}
+function doLogin(){showToast('Firebase needed','Configure Firebase to enable login.','err');}
+function doReg(){showToast('Firebase needed','Configure Firebase to enable registration.','err');}
+document.getElementById('aModal').addEventListener('click',function(e){if(e.target===this)closeAuth();});
+
+/* VIDEO FALLBACK — show placeholder if video fails to load */
+document.getElementById('hv').addEventListener('error',()=>{
+  const hero=document.querySelector('.hero');
+  hero.style.background='linear-gradient(135deg,#0A0A0A 0%,#1C1A14 50%,#0A0A0A 100%)';
+});
+</script>
+</body>
+</html>
