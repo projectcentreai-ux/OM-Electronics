@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop – OM ROBOTICS</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--orange:#FF8C00;--orange-dark:#e07a00;--orange-light:#FFA733;--black:#0a0a0a;--black2:#111111;--black3:#1a1a1a;--white:#FFFFFF;--gray:#888;--gray-light:#f5f5f5;--border:rgba(255,140,0,0.2);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Barlow',sans-serif;background:var(--black);color:var(--white);}
+a{text-decoration:none;color:inherit;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:70px;background:rgba(10,10,10,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;letter-spacing:2px;}
+.nav-logo span{color:var(--orange);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:0.9rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray);transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--orange);}
+.nav-actions{display:flex;align-items:center;gap:1rem;}
+.btn-cart{background:var(--orange);color:var(--black);border:none;padding:0.5rem 1.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;cursor:pointer;position:relative;transition:background .2s;}
+.btn-cart:hover{background:var(--orange-light);}
+.cart-count{position:absolute;top:-6px;right:-6px;background:var(--white);color:var(--black);border-radius:50%;width:18px;height:18px;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.btn-login{background:transparent;border:1px solid var(--orange);color:var(--orange);padding:0.5rem 1.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.btn-login:hover{background:var(--orange);color:var(--black);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;}
+.hamburger span{width:25px;height:2px;background:var(--white);display:block;}
+
+.page-header{padding:100px 5% 3rem;background:var(--black2);}
+.breadcrumb{font-size:0.8rem;color:var(--gray);margin-bottom:0.75rem;}
+.breadcrumb a{color:var(--orange);}
+.page-header h1{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2.5rem;text-transform:uppercase;}
+.page-header p{color:var(--gray);margin-top:0.3rem;}
+
+.shop-layout{display:flex;min-height:calc(100vh - 200px);padding:0 5%;gap:2rem;padding-top:2rem;}
+
+/* SIDEBAR FILTER */
+.sidebar{width:260px;flex-shrink:0;padding-bottom:3rem;}
+.sidebar-section{margin-bottom:2rem;}
+.sidebar-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);}
+.search-box{width:100%;background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:0.7rem 1rem;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;transition:border-color .2s;}
+.search-box:focus{border-color:var(--orange);}
+.cat-filter{display:flex;flex-direction:column;gap:0.4rem;max-height:400px;overflow-y:auto;}
+.cat-filter-item{display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.4rem 0.5rem;border-radius:2px;transition:background .2s;}
+.cat-filter-item:hover{background:rgba(255,140,0,0.08);}
+.cat-filter-item input{accent-color:var(--orange);cursor:pointer;}
+.cat-filter-item label{font-size:0.85rem;cursor:pointer;color:#ccc;}
+.cat-filter-item.active label{color:var(--orange);}
+.price-inputs{display:flex;gap:0.5rem;align-items:center;}
+.price-input{width:80px;background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:0.5rem;font-family:'Barlow',sans-serif;font-size:0.85rem;outline:none;}
+.price-input:focus{border-color:var(--orange);}
+.price-sep{color:var(--gray);font-size:0.8rem;}
+.filter-select{width:100%;background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:0.7rem 1rem;font-family:'Barlow',sans-serif;font-size:0.85rem;outline:none;cursor:pointer;}
+.filter-select:focus{border-color:var(--orange);}
+.filter-select option{background:var(--black3);}
+.btn-clear{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--gray);padding:0.5rem 1rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:1px;cursor:pointer;width:100%;transition:all .2s;}
+.btn-clear:hover{border-color:var(--orange);color:var(--orange);}
+
+/* MAIN CONTENT */
+.shop-main{flex:1;padding-bottom:3rem;}
+.shop-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;}
+.results-count{font-size:0.85rem;color:var(--gray);}
+.results-count strong{color:var(--white);}
+.toolbar-right{display:flex;align-items:center;gap:1rem;}
+.sort-select{background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:0.5rem 0.75rem;font-family:'Barlow',sans-serif;font-size:0.8rem;outline:none;cursor:pointer;}
+.sort-select option{background:var(--black3);}
+.view-toggle{display:flex;gap:0.3rem;}
+.view-btn{background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--gray);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.9rem;}
+.view-btn.active{border-color:var(--orange);color:var(--orange);}
+
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.2rem;}
+.products-grid.list-view{grid-template-columns:1fr;}
+.product-card{background:var(--black3);border:1px solid rgba(255,255,255,0.06);overflow:hidden;cursor:pointer;transition:all .3s;position:relative;}
+.product-card:hover{border-color:rgba(255,140,0,0.5);transform:translateY(-3px);}
+.product-img{width:100%;height:180px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:2.5rem;overflow:hidden;}
+.product-img img{max-width:90%;max-height:90%;width:auto;height:auto;object-fit:contain;padding:8px;}
+.product-badge{position:absolute;top:10px;left:10px;background:var(--orange);color:var(--black);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:0.65rem;letter-spacing:1px;padding:0.15rem 0.5rem;}
+.product-body{padding:0.9rem;}
+.product-cat{font-size:0.65rem;color:var(--orange);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:0.3rem;}
+.product-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.5rem;line-height:1.3;}
+.product-desc{font-size:0.78rem;color:var(--gray);line-height:1.5;margin-bottom:0.5rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:0.6rem;padding-top:0.6rem;border-top:1px solid rgba(255,255,255,0.07);}
+.product-price{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.2rem;color:var(--orange);}
+.product-stock{font-size:0.72rem;color:var(--gray);}
+.product-stock.out{color:#ff6b6b;}
+.btn-add{background:var(--orange);border:none;color:var(--black);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:1px;padding:0.35rem 0.8rem;cursor:pointer;transition:background .2s;}
+.btn-add:hover{background:var(--orange-light);}
+.btn-add:disabled{background:#444;cursor:not-allowed;color:var(--gray);}
+
+/* LIST VIEW */
+.list-view .product-card{display:flex;}
+.list-view .product-img{width:110px;height:110px;flex-shrink:0;}
+.list-view .product-body{display:flex;flex:1;align-items:center;gap:1rem;flex-wrap:wrap;}
+.list-view .product-name{flex:1;min-width:200px;}
+.list-view .product-footer{border:none;padding:0;margin:0;}
+
+/* PAGINATION */
+.pagination{display:flex;justify-content:center;gap:0.5rem;margin-top:2.5rem;flex-wrap:wrap;}
+.page-btn{background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--gray);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;transition:all .2s;}
+.page-btn:hover,.page-btn.active{background:var(--orange);border-color:var(--orange);color:var(--black);}
+.page-btn.dots{cursor:default;background:transparent;}
+
+.loading{text-align:center;padding:4rem;color:var(--gray);}
+.spinner{display:inline-block;width:30px;height:30px;border:3px solid rgba(255,140,0,0.3);border-top-color:var(--orange);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.no-results{text-align:center;padding:4rem 2rem;color:var(--gray);}
+.no-results .nr-icon{font-size:3rem;margin-bottom:1rem;}
+
+/* PRODUCT DETAIL MODAL */
+.product-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.9);z-index:2000;display:none;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;}
+.product-modal.active{display:flex;}
+.pm-box{background:var(--black2);border:1px solid var(--border);width:100%;max-width:750px;max-height:90vh;overflow-y:auto;position:relative;}
+.pm-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.1);border:none;color:var(--white);width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;z-index:10;}
+.pm-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.pm-img{background:var(--black3);display:flex;align-items:center;justify-content:center;min-height:250px;font-size:5rem;}
+.pm-img img{width:100%;height:100%;object-fit:cover;}
+.pm-info{padding:2rem;}
+.pm-cat{font-size:0.7rem;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.5rem;}
+.pm-name{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.8rem;margin-bottom:0.5rem;}
+.pm-price{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2rem;color:var(--orange);margin-bottom:1rem;}
+.pm-desc{font-size:0.88rem;color:#bbb;line-height:1.7;margin-bottom:1.5rem;}
+.pm-specs{margin-bottom:1.5rem;}
+.pm-specs h4{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;text-transform:uppercase;color:var(--gray);margin-bottom:0.75rem;}
+.spec-item{display:flex;gap:1rem;padding:0.4rem 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.82rem;}
+.spec-key{color:var(--gray);width:100px;flex-shrink:0;}
+.spec-val{color:var(--white);}
+.pm-qty{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;}
+.qty-btn{background:var(--black3);border:1px solid rgba(255,255,255,0.15);color:var(--white);width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;}
+.qty-display{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;min-width:30px;text-align:center;}
+.pm-btn{background:var(--orange);border:none;color:var(--black);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1rem;letter-spacing:2px;padding:0.85rem 2rem;cursor:pointer;width:100%;transition:background .2s;}
+.pm-btn:hover{background:var(--orange-light);}
+
+/* CART SIDEBAR */
+.cart-sidebar{position:fixed;right:-420px;top:0;bottom:0;width:420px;max-width:90vw;background:var(--black2);border-left:1px solid var(--border);z-index:1500;transition:right .3s;display:flex;flex-direction:column;}
+.cart-sidebar.open{right:0;}
+.cart-header{padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;}
+.cart-header h3{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.3rem;text-transform:uppercase;}
+.cart-close{background:none;border:none;color:var(--gray);font-size:1.2rem;cursor:pointer;}
+.cart-items{flex:1;overflow-y:auto;padding:1rem;}
+.cart-item{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.cart-item-icon{width:50px;height:50px;background:var(--black3);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.9rem;}
+.cart-item-cat{font-size:0.72rem;color:var(--orange);}
+.cart-item-price{font-family:'Barlow Condensed',sans-serif;font-weight:800;color:var(--orange);margin-top:0.2rem;}
+.cart-qty{display:flex;align-items:center;gap:0.4rem;margin-top:0.4rem;}
+.qty-btn-sm{background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--white);width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.75rem;}
+.qty-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;min-width:18px;text-align:center;font-size:0.9rem;}
+.cart-remove{background:none;border:none;color:var(--gray);cursor:pointer;font-size:0.75rem;margin-left:auto;}
+.cart-footer{padding:1.5rem;border-top:1px solid rgba(255,255,255,0.08);}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-family:'Barlow Condensed',sans-serif;}
+.cart-total-label{font-size:0.9rem;color:var(--gray);}
+.cart-total-val{font-weight:800;font-size:1.3rem;color:var(--orange);}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--gray);}
+.cart-empty .empty-icon{font-size:3rem;margin-bottom:1rem;}
+.btn-primary{background:var(--orange);color:var(--black);border:none;padding:0.9rem 2rem;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:0.95rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;width:100%;}
+.btn-primary:hover{background:var(--orange-light);}
+
+/* TOAST */
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--black3);border-left:3px solid var(--orange);padding:1rem 1.5rem;z-index:3000;transform:translateX(150%);transition:transform .3s;min-width:250px;}
+.toast.show{transform:translateX(0);}
+.toast-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.2rem;}
+.toast-msg{font-size:0.8rem;color:var(--gray);}
+
+/* AUTH MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);z-index:2500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-overlay.active{display:flex;}
+.modal{background:var(--black2);border:1px solid var(--border);width:90%;max-width:420px;padding:2.5rem;position:relative;}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--gray);font-size:1.2rem;cursor:pointer;}
+.modal h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.8rem;text-transform:uppercase;margin-bottom:0.3rem;}
+.modal-tabs{display:flex;gap:1rem;margin:1.5rem 0 1rem;}
+.tab-btn{background:none;border:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;text-transform:uppercase;color:var(--gray);cursor:pointer;padding-bottom:4px;border-bottom:2px solid transparent;}
+.tab-btn.active{color:var(--orange);border-bottom-color:var(--orange);}
+.form-group{margin-bottom:1rem;}
+.form-group label{font-size:0.8rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:0.4rem;}
+.form-group input{width:100%;background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:0.75rem 1rem;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;transition:border-color .2s;}
+.form-group input:focus{border-color:var(--orange);}
+.modal-submit{width:100%;background:var(--orange);border:none;color:var(--black);font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1rem;letter-spacing:2px;padding:0.9rem;cursor:pointer;margin-top:0.5rem;}
+
+@media(max-width:900px){
+  .shop-layout{flex-direction:column;}
+  .sidebar{width:100%;}
+  .cat-filter{flex-direction:row;flex-wrap:wrap;max-height:none;}
+  .pm-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:70px;left:0;right:0;background:var(--black2);padding:2rem;gap:1.5rem;border-bottom:1px solid var(--border);}
+}
+
+/* BILL MODAL */
+.bill-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:3500;display:none;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;}
+.bill-modal.active{display:flex;}
+.bill-box{background:#fff;color:#111;width:100%;max-width:600px;padding:0;border-radius:2px;position:relative;max-height:90vh;overflow-y:auto;}
+.bill-actions{display:flex;gap:0.75rem;padding:1rem 1.5rem;background:#f5f5f5;border-bottom:1px solid #ddd;justify-content:flex-end;align-items:center;}
+.bill-close-btn{background:transparent;border:1px solid #999;color:#555;padding:0.4rem 1rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;cursor:pointer;}
+.bill-print-btn{background:#FF8C00;border:none;color:#fff;padding:0.4rem 1.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;cursor:pointer;}
+.bill-email-btn{background:#111;border:none;color:#fff;padding:0.4rem 1.2rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;cursor:pointer;}
+.bill-email-btn:disabled{background:#888;cursor:not-allowed;}
+.bill-content{padding:2rem;}
+.bill-header{text-align:center;border-bottom:2px solid #FF8C00;padding-bottom:1.2rem;margin-bottom:1.5rem;}
+.bill-logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2rem;letter-spacing:2px;color:#FF8C00;}
+.bill-logo span{color:#111;}
+.bill-subtitle{font-size:0.8rem;color:#777;margin-top:0.2rem;}
+.bill-meta{display:flex;justify-content:space-between;margin-bottom:1.5rem;font-size:0.82rem;color:#555;}
+.bill-meta-col{}
+.bill-meta-col strong{display:block;font-size:0.9rem;color:#111;margin-bottom:0.25rem;}
+.bill-table{width:100%;border-collapse:collapse;margin-bottom:1.5rem;font-size:0.85rem;}
+.bill-table th{background:#FF8C00;color:#fff;padding:0.6rem 0.8rem;text-align:left;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;font-size:0.8rem;}
+.bill-table td{padding:0.55rem 0.8rem;border-bottom:1px solid #eee;color:#333;}
+.bill-table tr:last-child td{border-bottom:none;}
+.bill-table tr:nth-child(even){background:#fafafa;}
+.bill-totals{border-top:2px solid #FF8C00;padding-top:1rem;text-align:right;}
+.bill-totals-row{display:flex;justify-content:flex-end;gap:3rem;font-size:0.88rem;color:#555;margin-bottom:0.35rem;}
+.bill-totals-row.grand{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;color:#FF8C00;margin-top:0.5rem;}
+.bill-totals-row span:first-child{color:#777;}
+.bill-footer-note{text-align:center;font-size:0.75rem;color:#aaa;margin-top:1.5rem;padding-top:1rem;border-top:1px dashed #ddd;}
+.bill-status{display:inline-block;padding:0.2rem 0.6rem;background:#e8f5e9;color:#2e7d32;font-size:0.72rem;font-weight:700;letter-spacing:1px;border-radius:2px;margin-top:0.3rem;}
+
+/* Cart footer buttons */
+.cart-btn-row{display:flex;gap:0.5rem;margin-bottom:0.75rem;}
+.btn-print-bill{flex:1;background:transparent;border:1px solid var(--orange);color:var(--orange);padding:0.6rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.btn-print-bill:hover{background:var(--orange);color:var(--black);}
+
+/* Email status */
+.email-status{font-size:0.75rem;text-align:center;padding:0.3rem;margin-top:0.3rem;display:none;}
+.email-status.success{color:#4caf50;display:block;}
+.email-status.error{color:#f44336;display:block;}
+
+@media print {
+  body > *:not(#billModal){display:none!important;}
+  #billModal{display:flex!important;position:static!important;background:none!important;padding:0!important;}
+  .bill-actions{display:none!important;}
+  .bill-box{max-height:none!important;overflow:visible!important;box-shadow:none;}
+}
+
+/* CHECKOUT MODAL */
+.checkout-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.93);z-index:4000;display:none;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;}
+.checkout-modal.active{display:flex;}
+.checkout-box{background:var(--black2);border:1px solid var(--border);width:100%;max-width:700px;max-height:92vh;overflow-y:auto;position:relative;}
+.checkout-header{padding:1.5rem 2rem;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;}
+.checkout-header h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.6rem;text-transform:uppercase;letter-spacing:1px;}
+.checkout-header h2 span{color:var(--orange);}
+.checkout-close{background:none;border:none;color:var(--gray);font-size:1.3rem;cursor:pointer;}
+.checkout-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.checkout-form-sec{padding:2rem;border-right:1px solid rgba(255,255,255,0.06);}
+.checkout-summary-sec{padding:2rem;background:rgba(0,0,0,0.2);}
+.checkout-sec-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:1.2rem;padding-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.06);}
+.co-form-group{margin-bottom:1rem;}
+.co-form-group label{font-size:0.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray);display:block;margin-bottom:0.35rem;}
+.co-form-group input,.co-form-group textarea,.co-form-group select{width:100%;background:var(--black3);border:1px solid rgba(255,255,255,0.1);color:var(--white);padding:0.7rem 1rem;font-family:'Barlow',sans-serif;font-size:0.88rem;outline:none;transition:border-color .2s;}
+.co-form-group input:focus,.co-form-group textarea:focus,.co-form-group select:focus{border-color:var(--orange);}
+.co-form-group textarea{resize:vertical;min-height:80px;}
+.co-form-group select option{background:var(--black3);}
+.co-order-item{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.83rem;}
+.co-order-item:last-child{border:none;}
+.co-item-name{color:var(--white);font-weight:600;}
+.co-item-qty{color:var(--gray);font-size:0.75rem;margin-top:0.1rem;}
+.co-item-price{color:var(--orange);font-family:'Barlow Condensed',sans-serif;font-weight:800;}
+.co-divider{border:none;border-top:1px solid rgba(255,255,255,0.08);margin:1rem 0;}
+.co-total-row{display:flex;justify-content:space-between;font-size:0.85rem;color:var(--gray);margin-bottom:0.4rem;}
+.co-total-row.grand{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.3rem;color:var(--white);margin-top:0.5rem;}
+.co-total-row.grand span:last-child{color:var(--orange);}
+.co-payment-opts{display:flex;flex-direction:column;gap:0.5rem;margin-top:0.8rem;}
+.co-pay-opt{display:flex;align-items:center;gap:0.6rem;cursor:pointer;padding:0.6rem 0.8rem;border:1px solid rgba(255,255,255,0.08);transition:border-color .2s;}
+.co-pay-opt:hover{border-color:rgba(255,140,0,0.4);}
+.co-pay-opt input{accent-color:var(--orange);}
+.co-pay-opt label{font-size:0.85rem;cursor:pointer;}
+.checkout-footer{padding:1.5rem 2rem;border-top:1px solid rgba(255,255,255,0.08);display:flex;gap:1rem;align-items:center;justify-content:flex-end;}
+.btn-place-order{background:var(--orange);border:none;color:var(--black);font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1rem;letter-spacing:2px;padding:0.9rem 2.5rem;cursor:pointer;transition:background .2s;text-transform:uppercase;}
+.btn-place-order:hover{background:var(--orange-light);}
+.btn-place-order:disabled{background:#555;cursor:not-allowed;color:#999;}
+.btn-back-cart{background:transparent;border:1px solid rgba(255,255,255,0.15);color:var(--gray);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:1px;padding:0.9rem 1.5rem;cursor:pointer;transition:all .2s;}
+.btn-back-cart:hover{border-color:var(--orange);color:var(--orange);}
+
+/* ORDER SUCCESS */
+.order-success{text-align:center;padding:3rem 2rem;}
+.order-success .success-icon{font-size:4rem;margin-bottom:1rem;}
+.order-success h3{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:2rem;color:var(--orange);margin-bottom:0.5rem;}
+.order-success p{color:var(--gray);font-size:0.9rem;line-height:1.6;margin-bottom:0.3rem;}
+.order-id-tag{display:inline-block;background:var(--black3);border:1px solid var(--border);padding:0.4rem 1rem;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px;color:var(--orange);margin:1rem 0;}
+
+@media(max-width:650px){
+  .checkout-body{grid-template-columns:1fr;}
+  .checkout-form-sec{border-right:none;border-bottom:1px solid rgba(255,255,255,0.06);}
+  .checkout-footer{flex-direction:column;}
+  .btn-place-order,.btn-back-cart{width:100%;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">OM <span>ROBOTICS</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <div class="nav-actions">
+    <button class="btn-login" id="loginBtn" onclick="openAuthModal()">Login</button>
+    <button class="btn-cart" onclick="toggleCart()">🛒 Cart <span class="cart-count" id="cartCount">0</span></button>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="index.html">Home</a> / <span id="breadcrumbCat">All Products</span></div>
+  <h1 id="pageTitle">Component Shop</h1>
+  <p id="pageDesc">Browse our full range of electronic components</p>
+</div>
+
+<div class="shop-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">Search</div>
+      <input class="search-box" type="text" placeholder="Search components..." id="searchInput" oninput="filterProducts()">
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Category</div>
+      <div class="cat-filter" id="catFilter"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Price Range (₹)</div>
+      <div class="price-inputs">
+        <input class="price-input" type="number" id="priceMin" placeholder="Min" min="0" oninput="filterProducts()">
+        <span class="price-sep">—</span>
+        <input class="price-input" type="number" id="priceMax" placeholder="Max" min="0" oninput="filterProducts()">
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Availability</div>
+      <select class="filter-select" id="stockFilter" onchange="filterProducts()">
+        <option value="all">All Items</option>
+        <option value="in">In Stock Only</option>
+      </select>
+    </div>
+    <button class="btn-clear" onclick="clearFilters()">✕ Clear All Filters</button>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="shop-main">
+    <div class="shop-toolbar">
+      <div class="results-count" id="resultsCount"><strong>0</strong> products found</div>
+      <div class="toolbar-right">
+        <select class="sort-select" id="sortSelect" onchange="filterProducts()">
+          <option value="name_asc">Name A-Z</option>
+          <option value="name_desc">Name Z-A</option>
+          <option value="price_asc">Price Low-High</option>
+          <option value="price_desc">Price High-Low</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid View">⊞</button>
+          <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List View">☰</button>
+        </div>
+      </div>
+    </div>
+    <div id="loadingState" class="loading"><div class="spinner"></div><br>Loading components…</div>
+    <div class="products-grid" id="productsGrid" style="display:none;"></div>
+    <div id="noResults" class="no-results" style="display:none;"><div class="nr-icon">🔍</div><p>No components found matching your filters.</p></div>
+    <div class="pagination" id="pagination"></div>
+  </main>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div class="product-modal" id="productModal">
+  <div class="pm-box">
+    <button class="pm-close" onclick="closeProductModal()">✕</button>
+    <div class="pm-grid">
+      <div class="pm-img" id="pmImg"></div>
+      <div class="pm-info">
+        <div class="pm-cat" id="pmCat"></div>
+        <div class="pm-name" id="pmName"></div>
+        <div class="pm-price" id="pmPrice"></div>
+        <div class="pm-desc" id="pmDesc"></div>
+        <div class="pm-specs" id="pmSpecs"></div>
+        <div class="pm-qty">
+          <button class="qty-btn" onclick="changeDetailQty(-1)">−</button>
+          <span class="qty-display" id="detailQty">1</span>
+          <button class="qty-btn" onclick="changeDetailQty(1)">+</button>
+          <span style="font-size:0.8rem;color:var(--gray);" id="pmStock"></span>
+        </div>
+        <button class="pm-btn" id="pmAddBtn" onclick="addFromModal()">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h3>Cart</h3>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="cart-total-label">Total</span>
+      <span class="cart-total-val" id="cartTotal">₹0.00</span>
+    </div>
+    <div class="cart-btn-row">
+      <button class="btn-print-bill" onclick="openBillModal()">🖨️ Print Bill</button>
+    </div>
+    <button class="btn-primary" onclick="openCheckoutModal()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <h2>Welcome Back</h2>
+    <div class="modal-tabs">
+      <button class="tab-btn active" onclick="switchTab('login',this)">Login</button>
+      <button class="tab-btn" onclick="switchTab('register',this)">Register</button>
+    </div>
+    <div id="loginTab">
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="you@email.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+      <button class="modal-submit" onclick="handleLogin()">Login</button>
+    </div>
+    <div id="registerTab" style="display:none;">
+      <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="Your Name"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="you@email.com"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="regPass" placeholder="••••••••"></div>
+      <button class="modal-submit" onclick="handleRegister()">Create Account</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="toast-title" id="toastTitle"></div><div class="toast-msg" id="toastMsg"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyC0EdIcfUU5OADGnAjR79HMjESr6HlqEgY",authDomain:"om-electronics-a6b0b.firebaseapp.com",
+  projectId:"om-electronics-a6b0b",storageBucket:"om-electronics-a6b0b.firebasestorage.app",
+  messagingSenderId:"200777399359",appId:"1:200777399359:web:1d1d3096d17b4401000c8a"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+const CATEGORY_ICONS={'ICS':'🔌','CAPACITORS':'⚡','RESISTORS':'🔧','LED':'💡','LCD/DISPLAY':'📺','CRYSTAL':'💎','DIODE':'🔺','TRANSISTORS':'📡','SENSORS':'👁️','MODULES':'📦','CABLE':'🔌','CONNECTORS':'🔗','RELAY':'⚙️','BATTERY':'🔋','ADAPTOR/SMPS':'🔌','SWITCH':'🔄','INDUCTOR':'🌀','BUZZER':'🔔','MOTORS':'⚙️','TRIMPOT/POT':'🎛️','HOLDER':'🗂️','FUSE':'🛡️','HEATSINK':'❄️','FAN':'💨','BOX':'📦','BREAD BOARD':'🧩','BASE':'🏗️','WHEEL':'⭕','SOLAR PANAL':'☀️','General':'🔩'};
+
+let allProducts = [];
+let filteredProducts = [];
+let currentPage = 1;
+const PER_PAGE = 24;
+let detailQty = 1;
+let currentProductData = null;
+
+// Load from URL params
+const urlParams = new URLSearchParams(window.location.search);
+const urlCat = urlParams.get('cat');
+if(urlCat){
+  document.getElementById('breadcrumbCat').textContent = urlCat;
+  document.getElementById('pageTitle').textContent = urlCat;
+  document.getElementById('pageDesc').textContent = `Browse our ${urlCat} components`;
+}
+
+async function loadProducts(){
+  try {
+    const snap = await getDocs(query(collection(db,'components'), where('enabled','==',true)));
+    allProducts = snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(allProducts.length === 0){
+      // Demo/fallback mode - show message
+      document.getElementById('loadingState').style.display='none';
+      document.getElementById('noResults').style.display='block';
+      document.getElementById('noResults').innerHTML='<div class="nr-icon">📦</div><p>No products found. Please add products from the <a href="admin.html" style="color:var(--orange)">Admin Panel</a>.</p>';
+      return;
+    }
+  } catch(e){
+    allProducts = [];
+    document.getElementById('loadingState').style.display='none';
+    document.getElementById('noResults').style.display='block';
+    document.getElementById('noResults').innerHTML='<div class="nr-icon">⚠️</div><p>Could not connect to database. Please configure Firebase.</p>';
+    return;
+  }
+  buildCategoryFilter();
+  if(urlCat){
+    // Pre-select this category
+    const cb = document.querySelector(`input[value="${urlCat}"]`);
+    if(cb) cb.checked = true;
+  }
+  filterProducts();
+  document.getElementById('loadingState').style.display='none';
+  document.getElementById('productsGrid').style.display='grid';
+}
+
+function buildCategoryFilter(){
+  const cats = [...new Set(allProducts.map(p=>p.category).filter(Boolean))].sort();
+  const counts = {};
+  allProducts.forEach(p=>{ if(p.category) counts[p.category]=(counts[p.category]||0)+1; });
+  document.getElementById('catFilter').innerHTML = cats.map(c=>`
+    <div class="cat-filter-item">
+      <input type="checkbox" id="cat_${c}" value="${c}" onchange="filterProducts()">
+      <label for="cat_${c}">${c} <span style="color:var(--gray);font-size:0.7rem;">(${counts[c]||0})</span></label>
+    </div>`).join('');
+}
+
+window.filterProducts = function(){
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const selectedCats = [...document.querySelectorAll('#catFilter input:checked')].map(i=>i.value);
+  const minP = parseFloat(document.getElementById('priceMin').value)||0;
+  const maxP = parseFloat(document.getElementById('priceMax').value)||Infinity;
+  const stock = document.getElementById('stockFilter').value;
+  const sort = document.getElementById('sortSelect').value;
+
+  filteredProducts = allProducts.filter(p=>{
+    if(search && !p.name?.toLowerCase().includes(search) && !p.category?.toLowerCase().includes(search) && !p.description?.toLowerCase().includes(search)) return false;
+    if(selectedCats.length && !selectedCats.includes(p.category)) return false;
+    if(p.price < minP || p.price > maxP) return false;
+    if(stock==='in' && !p.stock) return false;
+    return true;
+  });
+
+  filteredProducts.sort((a,b)=>{
+    if(sort==='name_asc') return (a.name||'').localeCompare(b.name||'');
+    if(sort==='name_desc') return (b.name||'').localeCompare(a.name||'');
+    if(sort==='price_asc') return (a.price||0)-(b.price||0);
+    if(sort==='price_desc') return (b.price||0)-(a.price||0);
+    return 0;
+  });
+
+  currentPage=1;
+  renderProducts();
+  renderPagination();
+};
+
+function renderProducts(){
+  const start=(currentPage-1)*PER_PAGE;
+  const pageItems=filteredProducts.slice(start,start+PER_PAGE);
+  document.getElementById('resultsCount').innerHTML=`<strong>${filteredProducts.length}</strong> products found`;
+  const grid=document.getElementById('productsGrid');
+  if(!pageItems.length){
+    grid.style.display='none';
+    document.getElementById('noResults').style.display='block';
+    return;
+  }
+  document.getElementById('noResults').style.display='none';
+  grid.style.display='';
+  grid.innerHTML=pageItems.map(p=>`
+    <div class="product-card" onclick="openProductModal('${p.id}')">
+      ${p.imageUrl?`<div class="product-img"><img src="${p.imageUrl}" alt="${p.name}" onerror="this.parentNode.textContent='${CATEGORY_ICONS[p.category]||'🔩'}'"></div>`:`<div class="product-img">${CATEGORY_ICONS[p.category]||'🔩'}</div>`}
+      <div class="product-body">
+        <div class="product-cat">${p.category||''}</div>
+        <div class="product-name">${p.name}</div>
+        ${p.description?`<div class="product-desc">${p.description}</div>`:''}
+        <div class="product-footer">
+          <div>
+            <div class="product-price">₹${(p.price||0).toFixed(2)}</div>
+            <div class="product-stock ${p.stock?'':'out'}">${p.stock?`Stock: ${p.stock}`:'Out of Stock'}</div>
+          </div>
+          <button class="btn-add" onclick="event.stopPropagation();addToCart('${p.id}','${(p.name||'').replace(/'/g,"\\'")}','${p.category||''}',${p.price||0},'${p.imageUrl||''}')" ${!p.stock?'disabled':''}>Add</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function renderPagination(){
+  const totalPages=Math.ceil(filteredProducts.length/PER_PAGE);
+  if(totalPages<=1){ document.getElementById('pagination').innerHTML=''; return; }
+  let html='';
+  for(let i=1;i<=totalPages;i++){
+    if(i===1||i===totalPages||Math.abs(i-currentPage)<=2){
+      html+=`<button class="page-btn ${i===currentPage?'active':''}" onclick="goToPage(${i})">${i}</button>`;
+    } else if(Math.abs(i-currentPage)===3){
+      html+=`<span class="page-btn dots">…</span>`;
+    }
+  }
+  document.getElementById('pagination').innerHTML=html;
+}
+
+window.goToPage=function(p){ currentPage=p; renderProducts(); renderPagination(); window.scrollTo(0,200); };
+window.setView=function(v){
+  const grid=document.getElementById('productsGrid');
+  grid.classList.toggle('list-view',v==='list');
+  document.getElementById('gridViewBtn').classList.toggle('active',v==='grid');
+  document.getElementById('listViewBtn').classList.toggle('active',v==='list');
+};
+window.clearFilters=function(){
+  document.getElementById('searchInput').value='';
+  document.querySelectorAll('#catFilter input').forEach(i=>i.checked=false);
+  document.getElementById('priceMin').value='';
+  document.getElementById('priceMax').value='';
+  document.getElementById('stockFilter').value='all';
+  filterProducts();
+};
+
+window.openProductModal=function(id){
+  const p=allProducts.find(x=>x.id===id);
+  if(!p) return;
+  currentProductData=p;
+  detailQty=1;
+  document.getElementById('pmCat').textContent=p.category||'';
+  document.getElementById('pmName').textContent=p.name;
+  document.getElementById('pmPrice').textContent=`₹${(p.price||0).toFixed(2)}`;
+  document.getElementById('pmDesc').textContent=p.description||'High quality electronic component.';
+  document.getElementById('pmStock').textContent=p.stock?`${p.stock} in stock`:'Out of stock';
+  document.getElementById('pmAddBtn').disabled=!p.stock;
+  document.getElementById('detailQty').textContent=detailQty;
+  const imgEl=document.getElementById('pmImg');
+  imgEl.innerHTML=p.imageUrl?`<img src="${p.imageUrl}" alt="${p.name}">`:`<span style="font-size:5rem">${CATEGORY_ICONS[p.category]||'🔩'}</span>`;
+  // Specs
+  const specs=p.specifications||{};
+  const specKeys=Object.keys(specs);
+  document.getElementById('pmSpecs').innerHTML=specKeys.length?`<h4>Specifications</h4>${specKeys.map(k=>`<div class="spec-item"><span class="spec-key">${k}</span><span class="spec-val">${specs[k]}</span></div>`).join('')}`:'';
+  document.getElementById('productModal').classList.add('active');
+};
+window.closeProductModal=function(){ document.getElementById('productModal').classList.remove('active'); };
+window.changeDetailQty=function(d){ detailQty=Math.max(1,detailQty+d); document.getElementById('detailQty').textContent=detailQty; };
+window.addFromModal=function(){
+  if(!currentProductData) return;
+  const p=currentProductData;
+  addToCart(p.id,p.name,p.category||'',p.price||0,p.imageUrl||'',detailQty);
+  closeProductModal();
+};
+
+// Auth
+onAuthStateChanged(auth,user=>{
+  const btn=document.getElementById('loginBtn');
+  if(user){ btn.textContent='Logout'; btn.onclick=()=>signOut(auth); }
+  else{ btn.textContent='Login'; btn.onclick=openAuthModal; }
+});
+window.handleLogin=async()=>{
+  try{ await signInWithEmailAndPassword(auth,document.getElementById('loginEmail').value,document.getElementById('loginPass').value); closeAuthModal(); showToast('Logged in!','Welcome back.'); }
+  catch(e){ showToast('Login failed',e.message,'error'); }
+};
+window.handleRegister=async()=>{
+  try{
+    const cred=await createUserWithEmailAndPassword(auth,document.getElementById('regEmail').value,document.getElementById('regPass').value);
+    await setDoc(doc(db,'users',cred.user.uid),{name:document.getElementById('regName').value,email:document.getElementById('regEmail').value,orderHistory:[],createdAt:serverTimestamp()});
+    closeAuthModal(); showToast('Account created!','Welcome!');
+  } catch(e){ showToast('Failed',e.message,'error'); }
+};
+
+document.getElementById('productModal').addEventListener('click',e=>{ if(e.target.id==='productModal') closeProductModal(); });
+document.getElementById('authModal').addEventListener('click',e=>{ if(e.target.id==='authModal') closeAuthModal(); });
+
+loadProducts();
+</script>
+<!-- CHECKOUT MODAL -->
+<div class="checkout-modal" id="checkoutModal">
+  <div class="checkout-box">
+    <div class="checkout-header">
+      <h2>Check<span>out</span></h2>
+      <button class="checkout-close" onclick="closeCheckoutModal()">✕</button>
+    </div>
+    <!-- Main checkout form -->
+    <div id="checkoutForm">
+      <div class="checkout-body">
+        <!-- LEFT: Customer Details -->
+        <div class="checkout-form-sec">
+          <div class="checkout-sec-title">📋 Customer Details</div>
+          <div class="co-form-group">
+            <label>Full Name *</label>
+            <input type="text" id="coName" placeholder="Your full name" required>
+          </div>
+          <div class="co-form-group">
+            <label>Phone Number *</label>
+            <input type="tel" id="coPhone" placeholder="+91 00000 00000" required>
+          </div>
+          <div class="co-form-group">
+            <label>Email Address</label>
+            <input type="email" id="coEmail" placeholder="you@email.com">
+          </div>
+          <div class="co-form-group">
+            <label>Delivery Address *</label>
+            <textarea id="coAddress" placeholder="House No., Street, Area, City, Pincode" required></textarea>
+          </div>
+          <div class="co-form-group">
+            <label>Order Notes (optional)</label>
+            <input type="text" id="coNotes" placeholder="Any special instructions...">
+          </div>
+          <div class="checkout-sec-title" style="margin-top:1.5rem;">💳 Payment Method</div>
+          <div class="co-payment-opts">
+            <div class="co-pay-opt">
+              <input type="radio" name="payment" id="payCOD" value="Cash on Delivery" checked>
+              <label for="payCOD">💵 Cash on Delivery</label>
+            </div>
+            <div class="co-pay-opt">
+              <input type="radio" name="payment" id="payUPI" value="UPI / Bank Transfer">
+              <label for="payUPI">📱 UPI / Bank Transfer</label>
+            </div>
+            <div class="co-pay-opt">
+              <input type="radio" name="payment" id="payOnline" value="Online Payment">
+              <label for="payOnline">💳 Online Payment</label>
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT: Order Summary -->
+        <div class="checkout-summary-sec">
+          <div class="checkout-sec-title">🛒 Order Summary</div>
+          <div id="coOrderItems"></div>
+          <hr class="co-divider">
+          <div class="co-total-row"><span>Subtotal</span><span id="coSubtotal">₹0.00</span></div>
+          <div class="co-total-row"><span>Shipping</span><span>To be confirmed</span></div>
+          <div class="co-total-row grand"><span>Total</span><span id="coTotal">₹0.00</span></div>
+        </div>
+      </div>
+      <div class="checkout-footer">
+        <button class="btn-back-cart" onclick="closeCheckoutModal()">← Back to Cart</button>
+        <button class="btn-place-order" id="placeOrderBtn" onclick="placeOrder()">✅ Place Order</button>
+      </div>
+    </div>
+    <!-- Success screen -->
+    <div id="checkoutSuccess" style="display:none;">
+      <div class="order-success">
+        <div class="success-icon">🎉</div>
+        <h3>Order Placed!</h3>
+        <div class="order-id-tag" id="successOrderId">OM-XXXXXX</div>
+        <p>Your order has been received.</p>
+        <p>We'll contact you shortly on your phone number to confirm.</p>
+        <p style="margin-top:0.5rem;color:var(--orange);font-size:0.8rem;">A confirmation has been sent to <strong>omroboticstech@gmail.com</strong></p>
+        <div style="display:flex;gap:1rem;justify-content:center;margin-top:2rem;flex-wrap:wrap;">
+          <button class="btn-place-order" onclick="printSuccessBill()">⬇️ Download Receipt JPG</button>
+          <button class="btn-back-cart" onclick="closeCheckoutModal();clearCartAfterOrder();">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BILL MODAL -->
+<div class="bill-modal" id="billModal">
+  <div class="bill-box">
+    <div class="bill-actions">
+      <button class="bill-close-btn" onclick="closeBillModal()">✕ Close</button>
+      <button class="bill-email-btn" id="emailBillBtn" onclick="sendOrderEmail()">📧 Send to Owner</button>
+      <button class="bill-print-btn" onclick="downloadBillJPG()">⬇️ Download JPG</button>
+    </div>
+    <div class="bill-content" id="billContent">
+      <!-- Filled dynamically -->
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const OWNER_EMAIL = "omroboticstech@gmail.com";
+// EmailJS — sign up free at https://emailjs.com
+// Then fill these in:
+const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";   // Account → API Keys
+const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";   // Email Services tab
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";  // Email Templates tab
+// ─────────────────────────────────────────────────────────
+
+emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+let lastOrderData = null; // store for receipt printing
+
+function generateOrderId(){
+  return 'OM-' + Date.now().toString(36).toUpperCase();
+}
+
+// ───── CHECKOUT MODAL ─────────────────────────────────────
+function openCheckoutModal(){
+  if(!cart.length){ showToast('Cart is empty','Add items first.','error'); return; }
+  document.getElementById('checkoutForm').style.display = '';
+  document.getElementById('checkoutSuccess').style.display = 'none';
+
+  // Populate order summary
+  const subtotal = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  document.getElementById('coOrderItems').innerHTML = cart.map(item=>`
+    <div class="co-order-item">
+      <div>
+        <div class="co-item-name">${item.name}</div>
+        <div class="co-item-qty">Qty: ${item.qty} × ₹${item.price.toFixed(2)}</div>
+      </div>
+      <div class="co-item-price">₹${(item.price*item.qty).toFixed(2)}</div>
+    </div>`).join('');
+  document.getElementById('coSubtotal').textContent = `₹${subtotal.toFixed(2)}`;
+  document.getElementById('coTotal').textContent = `₹${subtotal.toFixed(2)}`;
+
+  document.getElementById('cartSidebar').classList.remove('open');
+  document.getElementById('checkoutModal').classList.add('active');
+}
+
+function closeCheckoutModal(){
+  document.getElementById('checkoutModal').classList.remove('active');
+}
+
+async function placeOrder(){
+  const name    = document.getElementById('coName').value.trim();
+  const phone   = document.getElementById('coPhone').value.trim();
+  const address = document.getElementById('coAddress').value.trim();
+  const email   = document.getElementById('coEmail').value.trim();
+  const notes   = document.getElementById('coNotes').value.trim();
+  const payment = document.querySelector('input[name="payment"]:checked')?.value || 'Cash on Delivery';
+
+  if(!name){ showToast('Missing info','Please enter your name.','error'); document.getElementById('coName').focus(); return; }
+  if(!phone){ showToast('Missing info','Please enter your phone number.','error'); document.getElementById('coPhone').focus(); return; }
+  if(!address){ showToast('Missing info','Please enter your delivery address.','error'); document.getElementById('coAddress').focus(); return; }
+
+  const btn = document.getElementById('placeOrderBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Placing Order...';
+
+  const orderId  = generateOrderId();
+  const dateStr  = new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const subtotal = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+
+  const itemsText = cart.map((item,i)=>
+    `${i+1}. ${item.name} (${item.cat||'—'})  |  Qty: ${item.qty}  |  ₹${item.price.toFixed(2)} each  |  ₹${(item.price*item.qty).toFixed(2)}`
+  ).join('\n');
+
+  const itemsHTML = cart.map((item,i)=>`
+    <tr>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;">${i+1}</td>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;">${item.name}</td>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;">${item.cat||'—'}</td>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:center;">${item.qty}</td>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:right;">₹${item.price.toFixed(2)}</td>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:right;">₹${(item.price*item.qty).toFixed(2)}</td>
+    </tr>`).join('');
+
+  lastOrderData = { orderId, dateStr, name, phone, email, address, notes, payment, subtotal, itemsText, itemsHTML };
+
+  // Build template params for EmailJS
+  const templateParams = {
+    to_email:     OWNER_EMAIL,
+    order_id:     orderId,
+    order_date:   dateStr,
+    customer_name:  name,
+    customer_phone: phone,
+    customer_email: email || 'Not provided',
+    customer_address: address,
+    payment_method: payment,
+    order_notes:  notes || 'None',
+    order_items:  itemsText,
+    order_items_html: `<table style="width:100%;border-collapse:collapse;font-family:sans-serif;font-size:13px;">
+      <thead><tr style="background:#FF8C00;color:#fff;">
+        <th style="padding:8px 10px;text-align:left;">#</th>
+        <th style="padding:8px 10px;text-align:left;">Item</th>
+        <th style="padding:8px 10px;text-align:left;">Category</th>
+        <th style="padding:8px 10px;text-align:center;">Qty</th>
+        <th style="padding:8px 10px;text-align:right;">Unit Price</th>
+        <th style="padding:8px 10px;text-align:right;">Total</th>
+      </tr></thead>
+      <tbody>${itemsHTML}</tbody>
+    </table>`,
+    order_total:  `₹${subtotal.toFixed(2)}`,
+    item_count:   cart.reduce((s,i)=>s+i.qty,0),
+  };
+
+  let emailSent = false;
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+    emailSent = true;
+  } catch(err){
+    console.warn('EmailJS failed, using mailto fallback:', err);
+    // Mailto fallback — opens mail client
+    const subject = encodeURIComponent(`🛒 New Order ${orderId} from ${name} – OM ROBOTICS`);
+    const body = encodeURIComponent(
+      `NEW ORDER RECEIVED\n${'='.repeat(40)}\n` +
+      `Order ID   : ${orderId}\nDate       : ${dateStr}\n\n` +
+      `CUSTOMER\nName    : ${name}\nPhone   : ${phone}\nEmail   : ${email||'—'}\nAddress : ${address}\nPayment : ${payment}\nNotes   : ${notes||'None'}\n\n` +
+      `ITEMS\n${itemsText}\n\nGRAND TOTAL: ₹${subtotal.toFixed(2)}`
+    );
+    window.open(`mailto:${OWNER_EMAIL}?subject=${subject}&body=${body}`);
+  }
+
+  // Show success
+  document.getElementById('successOrderId').textContent = orderId;
+  document.getElementById('checkoutForm').style.display = 'none';
+  document.getElementById('checkoutSuccess').style.display = '';
+  btn.disabled = false;
+  btn.textContent = '✅ Place Order';
+  showToast('Order placed!', `Order ${orderId} confirmed.`);
+}
+
+function clearCartAfterOrder(){
+  cart = [];
+  saveCart();
+}
+
+function printSuccessBill(){
+  if(!lastOrderData) return;
+  const d = lastOrderData;
+  // Build a hidden receipt div, capture as JPG
+  const div = document.createElement('div');
+  div.style.cssText = 'position:fixed;left:-9999px;top:0;width:700px;background:#fff;padding:2rem;font-family:Barlow,sans-serif;color:#111;z-index:-1;';
+  div.innerHTML = `
+    <div style="text-align:center;border-bottom:3px solid #FF8C00;padding-bottom:1.2rem;margin-bottom:1.5rem;">
+      <div style="font-family:Barlow Condensed,sans-serif;font-weight:900;font-size:2.2rem;color:#FF8C00;letter-spacing:2px;">OM <span style="color:#111;">ROBOTICS</span></div>
+      <div style="font-size:0.78rem;color:#888;margin-top:0.3rem;">Electronic Components &amp; Robotics • omroboticstech@gmail.com</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-bottom:1.5rem;font-size:0.82rem;color:#555;gap:1rem;flex-wrap:wrap;">
+      <div><strong style="display:block;color:#111;margin-bottom:0.3rem;font-size:0.9rem;">Order Details</strong>
+        Order ID: <b>${d.orderId}</b><br>Date: ${d.dateStr}<br>Payment: ${d.payment}
+        <span style="display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:2px;letter-spacing:1px;margin-top:4px;">✓ ORDER CONFIRMED</span>
+      </div>
+      <div style="text-align:right;"><strong style="display:block;color:#111;margin-bottom:0.3rem;font-size:0.9rem;">Delivery To</strong>
+        ${d.name}<br>📞 ${d.phone}<br>${d.email?`✉ ${d.email}<br>`:''}📍 ${d.address.replace(/\n/g,'<br>')}
+      </div>
+    </div>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:1.5rem;font-size:0.84rem;">
+      <thead><tr><th style="background:#FF8C00;color:#fff;padding:0.6rem 0.8rem;text-align:left;">#</th><th style="background:#FF8C00;color:#fff;padding:0.6rem 0.8rem;text-align:left;">Item</th><th style="background:#FF8C00;color:#fff;padding:0.6rem 0.8rem;text-align:left;">Category</th><th style="background:#FF8C00;color:#fff;padding:0.6rem 0.8rem;text-align:center;">Qty</th><th style="background:#FF8C00;color:#fff;padding:0.6rem 0.8rem;text-align:right;">Unit</th><th style="background:#FF8C00;color:#fff;padding:0.6rem 0.8rem;text-align:right;">Total</th></tr></thead>
+      <tbody>${d.itemsHTML}</tbody>
+    </table>
+    <div style="border-top:2px solid #FF8C00;padding-top:1rem;text-align:right;">
+      <div style="display:flex;justify-content:flex-end;gap:3rem;font-size:0.87rem;color:#666;margin-bottom:0.3rem;"><span>Subtotal</span><span>₹${d.subtotal.toFixed(2)}</span></div>
+      <div style="display:flex;justify-content:flex-end;gap:3rem;font-size:0.87rem;color:#666;margin-bottom:0.3rem;"><span>Shipping</span><span>To be confirmed</span></div>
+      <div style="display:flex;justify-content:flex-end;gap:3rem;font-family:Barlow Condensed,sans-serif;font-weight:900;font-size:1.4rem;color:#FF8C00;margin-top:0.5rem;"><span style="color:#333;">Grand Total</span><span>₹${d.subtotal.toFixed(2)}</span></div>
+    </div>
+    ${d.notes?`<p style="margin-top:1rem;font-size:0.82rem;color:#555;"><b>Notes:</b> ${d.notes}</p>`:''}
+    <div style="text-align:center;font-size:0.73rem;color:#bbb;margin-top:2rem;padding-top:1rem;border-top:1px dashed #ddd;">Thank you for shopping with OM ROBOTICS! This is a computer-generated receipt.</div>`;
+  document.body.appendChild(div);
+  html2canvas(div, {backgroundColor:'#fff', scale:2, useCORS:true}).then(canvas=>{
+    const link = document.createElement('a');
+    link.download = `OM_ROBOTICS_${d.orderId}.jpg`;
+    link.href = canvas.toDataURL('image/jpeg', 0.95);
+    link.click();
+    document.body.removeChild(div);
+    showToast('Bill downloaded!', `Saved as ${link.download}`);
+  }).catch(()=>{ document.body.removeChild(div); window.print(); });
+}
+
+function downloadBillJPG(){
+  if(!cart.length) return;
+  lastOrderData = {
+    orderId: document.getElementById('billContent').getAttribute('data-order-id'),
+    dateStr: document.getElementById('billContent').getAttribute('data-date'),
+    name:'—', phone:'—', email:'', address:'—', notes:'', payment:'—',
+    subtotal: cart.reduce((s,i)=>s+(i.price*i.qty),0),
+    itemsHTML: cart.map((item,i)=>`
+      <tr>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;">${i+1}</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;">${item.name}</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;">${item.cat||'—'}</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:center;">${item.qty}</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:right;">₹${item.price.toFixed(2)}</td>
+        <td style="padding:6px 10px;border-bottom:1px solid #eee;text-align:right;">₹${(item.price*item.qty).toFixed(2)}</td>
+      </tr>`).join('')
+  };
+  printSuccessBill();
+}
+
+// ───── BILL MODAL (from cart) ─────────────────────────────
+function buildBillHTML(orderId, dateStr){
+  const subtotal = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  const rows = cart.map((item,idx)=>`
+    <tr>
+      <td>${idx+1}</td>
+      <td>${item.name}</td>
+      <td>${item.cat||'-'}</td>
+      <td style="text-align:center">${item.qty}</td>
+      <td style="text-align:right">₹${item.price.toFixed(2)}</td>
+      <td style="text-align:right">₹${(item.price*item.qty).toFixed(2)}</td>
+    </tr>`).join('');
+  return `
+    <div class="bill-header">
+      <div class="bill-logo">OM <span style="color:#111">ROBOTICS</span></div>
+      <div class="bill-subtitle">Electronic Components &amp; Robotics</div>
+    </div>
+    <div class="bill-meta">
+      <div class="bill-meta-col">
+        <strong>Order Receipt</strong>
+        Order ID: <b>${orderId}</b><br>
+        Date: ${dateStr}
+      </div>
+      <div class="bill-meta-col" style="text-align:right">
+        <strong>OM Robotics Tech</strong>
+        omroboticstech@gmail.com<br>
+        <span class="bill-status">✓ CART BILL</span>
+      </div>
+    </div>
+    <table class="bill-table">
+      <thead><tr>
+        <th>#</th><th>Item</th><th>Category</th>
+        <th style="text-align:center">Qty</th>
+        <th style="text-align:right">Unit Price</th>
+        <th style="text-align:right">Total</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="bill-totals">
+      <div class="bill-totals-row"><span>Subtotal</span><span>₹${subtotal.toFixed(2)}</span></div>
+      <div class="bill-totals-row"><span>Shipping</span><span>To be confirmed</span></div>
+      <div class="bill-totals-row grand"><span>Grand Total</span><span>₹${subtotal.toFixed(2)}</span></div>
+    </div>
+    <div class="bill-footer-note">Thank you for shopping with OM ROBOTICS! • This is a computer-generated receipt.</div>`;
+}
+
+function openBillModal(){
+  if(!cart.length){ showToast('Cart is empty','Add items before printing a bill.','error'); return; }
+  const orderId = generateOrderId();
+  const dateStr = new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  document.getElementById('billContent').innerHTML = buildBillHTML(orderId, dateStr);
+  document.getElementById('billContent').setAttribute('data-order-id', orderId);
+  document.getElementById('billContent').setAttribute('data-date', dateStr);
+  document.getElementById('emailBillBtn').disabled = false;
+  document.getElementById('emailBillBtn').textContent = '📧 Send to Owner';
+  document.getElementById('emailBillBtn').style.background = '';
+  document.getElementById('billModal').classList.add('active');
+}
+
+function closeBillModal(){ document.getElementById('billModal').classList.remove('active'); }
+
+
+
+
+async function sendOrderEmail(){
+  if(!cart.length){ showToast('Cart is empty','Nothing to send.','error'); return; }
+  const btn = document.getElementById('emailBillBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Sending...';
+
+  const orderId = document.getElementById('billContent').getAttribute('data-order-id') || generateOrderId();
+  const dateStr = document.getElementById('billContent').getAttribute('data-date') || new Date().toLocaleString('en-IN');
+  const subtotal = cart.reduce((s,i)=>s+(i.price*i.qty),0);
+  const itemsText = cart.map((item,i)=>
+    `${i+1}. ${item.name} (${item.cat||'—'}) | Qty: ${item.qty} | ₹${item.price.toFixed(2)} each | ₹${(item.price*item.qty).toFixed(2)}`
+  ).join('\n');
+
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: OWNER_EMAIL, order_id: orderId, order_date: dateStr,
+      customer_name:'Cart Bill Preview', customer_phone:'—', customer_email:'—',
+      customer_address:'—', payment_method:'—', order_notes:'Sent from cart.',
+      order_items: itemsText, order_total:`₹${subtotal.toFixed(2)}`,
+      item_count: cart.reduce((s,i)=>s+i.qty,0),
+    });
+    btn.textContent = '✅ Sent!';
+    btn.style.background = '#4caf50';
+    showToast('Email sent!', `Order ${orderId} sent to ${OWNER_EMAIL}`);
+  } catch(err){
+    console.warn('EmailJS failed:', err);
+    btn.textContent = '✉ Open Mail App';
+    btn.style.background = '#555';
+    btn.disabled = false;
+    const subject = encodeURIComponent(`Cart Bill ${orderId} – OM ROBOTICS`);
+    const body = encodeURIComponent(`Order ID: ${orderId}\nDate: ${dateStr}\n\nItems:\n${itemsText}\n\nTotal: ₹${subtotal.toFixed(2)}`);
+    window.open(`mailto:${OWNER_EMAIL}?subject=${subject}&body=${body}`);
+  }
+}
+
+document.getElementById('billModal').addEventListener('click',e=>{ if(e.target.id==='billModal') closeBillModal(); });
+document.getElementById('checkoutModal').addEventListener('click',e=>{ if(e.target.id==='checkoutModal') closeCheckoutModal(); });
+</script>
+
+<script>
+let cart=JSON.parse(localStorage.getItem('omCart')||'[]');
+
+function saveCart(){ localStorage.setItem('omCart',JSON.stringify(cart)); updateCartUI(); }
+function updateCartUI(){
+  const count=cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent=count;
+  const items=document.getElementById('cartItems');
+  if(!cart.length){ items.innerHTML=`<div class="cart-empty"><div class="empty-icon">🛒</div><p>Your cart is empty</p></div>`; }
+  else {
+    items.innerHTML=cart.map((item,i)=>`
+      <div class="cart-item">
+        <div class="cart-item-icon">🔩</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-cat">${item.cat}</div>
+          <div class="cart-item-price">₹${(item.price*item.qty).toFixed(2)}</div>
+          <div class="cart-qty">
+            <button class="qty-btn-sm" onclick="changeQty(${i},-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn-sm" onclick="changeQty(${i},1)">+</button>
+            <button class="cart-remove" onclick="removeFromCart(${i})">✕</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  document.getElementById('cartTotal').textContent=`₹${cart.reduce((s,i)=>s+(i.price*i.qty),0).toFixed(2)}`;
+}
+window.addToCart=(id,name,cat,price,img,qty=1)=>{
+  const ex=cart.find(i=>i.id===id);
+  if(ex){ ex.qty+=qty; } else { cart.push({id,name,cat,price,qty}); }
+  saveCart(); showToast('Added to cart!',name);
+};
+window.changeQty=(i,d)=>{ cart[i].qty+=d; if(cart[i].qty<=0) cart.splice(i,1); saveCart(); };
+window.removeFromCart=(i)=>{ cart.splice(i,1); saveCart(); };
+function toggleCart(){ document.getElementById('cartSidebar').classList.toggle('open'); updateCartUI(); }
+function showToast(title,msg,type='success'){
+  const t=document.getElementById('toast');
+  document.getElementById('toastTitle').textContent=title;
+  document.getElementById('toastMsg').textContent=msg;
+  t.style.borderLeftColor=type==='error'?'#ff4444':'var(--orange)';
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000);
+}
+function openAuthModal(){ document.getElementById('authModal').classList.add('active'); }
+function closeAuthModal(){ document.getElementById('authModal').classList.remove('active'); }
+function switchTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+  document.getElementById('loginTab').style.display=tab==='login'?'block':'none';
+  document.getElementById('registerTab').style.display=tab==='register'?'block':'none';
+}
+updateCartUI();
+</script>
+</body>
+</html>
